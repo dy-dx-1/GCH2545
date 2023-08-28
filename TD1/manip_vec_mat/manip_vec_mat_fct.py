@@ -1,6 +1,7 @@
 #Importation des modules
 import numpy as np
 
+##TODO: confirm if they dont want immediate return for all functions 
 
 # Fonctions pour construire les vecteurs x et f
 def faire_vecteur_x():
@@ -9,8 +10,8 @@ def faire_vecteur_x():
     Sortie:
         - Un np.array contenant 101 nombres allant de 0 à 5 inclusivement
     """
-    
-    x=0
+
+    x = np.linspace(0, 5, 101) 
     return x
 
 def faire_vecteur_f():
@@ -19,9 +20,8 @@ def faire_vecteur_f():
     Sortie:
         - Un np.array contenant 101 chiffre contenant x^2 pour x appartenant à [0,5]
     """
-    f=0
-    return f
-
+    f=np.array([x**2 for x in faire_vecteur_x()])
+    return f 
 
 # Fonction pour construire la matrice du système d'équations
 def faire_matrice():
@@ -34,8 +34,9 @@ def faire_matrice():
         - Une matrice (np.array) correspondant au système d'équations.
     """
     
-    mat = np.zeros([3,3])
-    
+    mat = np.array([[2, -5, 3],
+                    [3, -1, 4], 
+                    [1,  3, 2]])
     return mat
 
 # Fonction pour construire le membre de droite du système d'équations
@@ -50,6 +51,6 @@ def faire_second_membre():
     """
 
 
-    b = np.zeros(3)
+    b = [8,7,-3]
 
     return b
