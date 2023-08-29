@@ -9,9 +9,11 @@ def serie_harmonique(N):
     Sortie:
         - Un nombre flottant contenant la valeur de la série
     """
+    res = 0 
+    for i in range(1, N+1):
+        res+=i 
     
-    
-    return 0
+    return res
 
 # Fonction de la fonction factorielle
 def factoriel(k):
@@ -19,7 +21,9 @@ def factoriel(k):
 
     Sortie:
         - Un nombre entier contenant le factoriel de k
-    """
+    """ 
+    res = k
+    for i in range(k-1, 1, -1): 
+        res = res*i 
 
-
-    return 0
+    return res
