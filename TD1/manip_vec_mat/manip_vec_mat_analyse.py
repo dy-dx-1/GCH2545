@@ -11,15 +11,14 @@ import manip_vec_mat_corr
 
 
 # Manipulation d'un vecteur
-#x = faire_vecteur_x()
-#f = faire_vecteur_f()
+x = faire_vecteur_x()
+f = faire_vecteur_f()
 
 # Résolution d'un système linéaire
-#mat = faire_matrice()
-#b = faire_second_membre()
-sol = 0
+mat = faire_matrice()
+b = faire_second_membre()
+sol = np.linalg.solve(mat, b) 
 print(sol)
-
 
 
 # Correction

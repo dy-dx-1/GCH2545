@@ -50,7 +50,8 @@ def faire_second_membre():
         - Un np.array array contenant 3 nombres
     """
 
-
-    b = [8,7,-3]
+    b = [8,
+         7,
+         -3]
 
     return b
