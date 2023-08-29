@@ -20,6 +20,8 @@ b = faire_second_membre()
 sol = np.linalg.solve(mat, b) 
 print(sol)
 
+plt.plot(x, f) 
+plt.show() 
 
 # Correction
 pytest.main(['-q', '--tb=long', 'manip_vec_mat_corr.py'])
