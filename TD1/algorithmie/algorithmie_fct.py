@@ -11,7 +11,7 @@ def serie_harmonique(N):
     """
     res = 0 
     for i in range(1, N+1):
-        res+=i 
+        res+=1/i 
     
     return res
 
