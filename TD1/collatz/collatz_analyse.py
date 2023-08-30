@@ -17,7 +17,7 @@ import collatz_corr
 #-----------------------------------------------------------------------------
 
 # Code principal
-## trouver # itérations pour chaque entier 
+## liste contenant le # itérations pour chaque entier 
 iterations_collatz = [collatz(num) for num in range(1, 5001)]
 
 #Graphiques
@@ -30,28 +30,25 @@ plt.ylabel("Nombre d'itérations de la conjecture de Collatz")
 plt.show()
 
 #### QUESTION C 
-# la méthode hist de matplotlib.pyplot est capable seule de créer un histogramme directement
-plt.hist(iterations_collatz) 
-
-
-##m.thode manuelle 
+# Création d'un dict vide qui contiendra comme clés chaque #d'itérations 
+# et comme valeurs associée, leur fréquence 
 freq = {}
 for iter in iterations_collatz: 
     # on va chercher l'élément clé d'une itération avec freq[iter]
-    # on on trouve le sa clé (#itérations)correspondante avec .get
-    # si get ne trouve rien il retourne 0 (l'élément n'a pas encore été comptabilisé)
-    # on rajoute 1 pour signifier qu'on ajoute une itération 
+    # on on trouve sa clé (nb d'itérations) correspondante avec .get
+    # si get ne trouve rien il retourne 0 (l'élément n'a pas encore été comptabilisé dans le dict)
+    # ensuite, on rajoute 1 à la valeur retournée (ou 0) pour signifier qu'on ajoute une itération 
     freq[iter] = freq.get(iter, 0) + 1 
 # Mettons le dictionnaire en ordre croissant de clés maintenant
 freq = dict(sorted(freq.items()))
-# Maintenant organisons le dict en 2 listes correspondantes 
-domaine_hist = []
-image_hist = []
-for (x,y) in freq.items(): 
-    domaine_hist.append(x) 
-    image_hist.append(y) 
+# Maintenant organisons le dict en 1 array contenant les itérations et leur fréquence
+results = np.array(list(freq.items())) 
+# créons le graphique 
 fig, ax = plt.subplots() 
-ax.bar(domaine_hist, image_hist)
+ax.bar(results[:,0], results[:,1])
+plt.title("Nombre d'itérations obtenus en applicant la conjecture de Collatz sur des entiers de 1 à 5000 et leur fréquence")
+plt.xlabel("Nombre d'itérations") 
+plt.ylabel("Fréquence pour des entiers entre 1 et 5000")
 plt.show() 
 #Correction
 pytest.main(['-q', '--tb=long', 'collatz_corr.py'])
