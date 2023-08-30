@@ -19,4 +19,4 @@ def collatz(i):
     while i!=1: 
         i=i/2 if i%2==0 else 3*i+1 
         counter+=1 
-    return counter ### à compléter
+    return counter 

@@ -1,7 +1,6 @@
 #Importation des modules
 import numpy as np
 
-
 # Fonction de la serie harmonique
 def serie_harmonique(N):
     """Fonction qui calcule la série harmonique en sommant les N premiers termes

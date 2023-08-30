@@ -40,11 +40,3 @@ def monte_carlo(x,y):
     Ncercle = len([i for i in sum if i<=1])# on compte tous les points où la distance est plus petite que  1 (intérieur du cercle) 
     pi = 4 * (Ncercle / len(x))
     return pi ### Valeur retournée
-
-#x,y= genXY(100) 
-#plt.plot(x,y,'.')
-#d_c = np.linspace(-1,1,1000)
-#plt.plot(d_c, [np.sqrt(1-(x**2)) for x in d_c], 'r-')
-#plt.plot(d_c, [-np.sqrt(1-(x**2)) for x in d_c], 'r-')
-#plt.grid()
-#plt.show()

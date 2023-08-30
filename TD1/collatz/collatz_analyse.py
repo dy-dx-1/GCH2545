@@ -21,7 +21,6 @@ import collatz_corr
 iterations_collatz = [collatz(num) for num in range(1, 5001)]
 
 #Graphiques
-### À remplir
 #### QUESTION B 
 plt.plot(range(1,5001), iterations_collatz, '.')
 plt.grid() 

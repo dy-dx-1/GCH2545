@@ -11,8 +11,7 @@ def faire_vecteur_x():
         - Un np.array contenant 101 nombres allant de 0 à 5 inclusivement
     """
 
-    x = np.linspace(0, 5, 101) 
-    return x
+    return np.linspace(0, 5, 101) 
 
 def faire_vecteur_f():
     """Fonction qui génère un vecteur f(x)=x^2 en employant le vecteur f
@@ -20,8 +19,8 @@ def faire_vecteur_f():
     Sortie:
         - Un np.array contenant 101 chiffre contenant x^2 pour x appartenant à [0,5]
     """
-    f=np.array([x**2 for x in faire_vecteur_x()])
-    return f 
+
+    return np.array([x**2 for x in faire_vecteur_x()])
 
 # Fonction pour construire la matrice du système d'équations
 def faire_matrice():
@@ -34,10 +33,9 @@ def faire_matrice():
         - Une matrice (np.array) correspondant au système d'équations.
     """
     
-    mat = np.array([[2, -5, 3],
+    return np.array([[2, -5, 3],
                     [3, -1, 4], 
                     [1,  3, 2]])
-    return mat
 
 # Fonction pour construire le membre de droite du système d'équations
 def faire_second_membre():
@@ -50,8 +48,6 @@ def faire_second_membre():
         - Un np.array array contenant 3 nombres
     """
 
-    b = [8,
-         7,
-         -3]
-
-    return b
+    return [8,
+            7,
+           -3]

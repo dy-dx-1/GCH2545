@@ -22,7 +22,9 @@ plt.grid()
 plt.show() 
 # Factoriel
 
-
-
+print("***Différence (erreur absolue) entre fonction écrite et fonction factorial de numpy***")
+print("Erreur pour 5! :", abs(factoriel(5)-np.math.factorial(5)))
+print("Erreur pour 48! :", abs(factoriel(48)-np.math.factorial(48)))
+print("Erreur pour 87! :", abs(factoriel(87)-np.math.factorial(87)))
 # Correction
 pytest.main(['-q', '--tb=long', 'algorithmie_corr.py'])
