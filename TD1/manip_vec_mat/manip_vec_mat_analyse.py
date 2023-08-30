@@ -18,9 +18,14 @@ f = faire_vecteur_f()
 mat = faire_matrice()
 b = faire_second_membre()
 sol = np.linalg.solve(mat, b) 
-print(sol)
+print("Solution du système d'équations: ", sol)
 
+# Affichage du graphique 
 plt.plot(x, f) 
+plt.title(r"Graphique de la fonction $f(x)=x^2$")
+plt.xlabel("x") 
+plt.ylabel("f(x)")
+plt.grid() 
 plt.show() 
 
 # Correction

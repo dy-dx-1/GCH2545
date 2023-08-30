@@ -17,12 +17,23 @@ import collatz_corr
 #-----------------------------------------------------------------------------
 
 # Code principal
-### À remplir
+## trouver # itérations pour chaque entier 
+iterations_collatz = [collatz(num) for num in range(1, 5001)]
 
 #Graphiques
 ### À remplir
-
+#### QUESTION B 
+plt.plot(range(1,5001), iterations_collatz, '.')
+plt.grid() 
+plt.title("Itérations de la conjecture de Collatz pour les entiers entre 1 et 5000")
+plt.xlabel("Nombres entiers") 
+plt.ylabel("Nombre d'itérations de la conjecture de Collatz")
 plt.show()
+
+#### QUESTION C 
+# la méthode hist de matplotlib.pyplot est capable seule de créer un histogramme directement
+plt.hist(iterations_collatz) 
+plt.show() 
 
 #Correction
 pytest.main(['-q', '--tb=long', 'collatz_corr.py'])
