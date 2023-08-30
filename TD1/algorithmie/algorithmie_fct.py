@@ -22,7 +22,7 @@ def factoriel(k):
         - Un nombre entier contenant le factoriel de k
     """ 
     res = k
-    for i in range(k-1, 1, -1): 
+    for i in range(k-1, 1, -1): # on arrête de multiplier à 2 et pas à 1 pour économiser une itération 
         res = res*i 
 
     return res

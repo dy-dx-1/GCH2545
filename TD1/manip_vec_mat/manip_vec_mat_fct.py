@@ -1,8 +1,6 @@
 #Importation des modules
 import numpy as np
 
-##TODO: confirm if they dont want immediate return for all functions 
-
 # Fonctions pour construire les vecteurs x et f
 def faire_vecteur_x():
     """Fonction qui génère un vecteur x allant de 0 à 5 avec 101 points

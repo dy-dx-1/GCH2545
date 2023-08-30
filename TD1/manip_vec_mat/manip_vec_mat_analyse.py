@@ -21,8 +21,9 @@ sol = np.linalg.solve(mat, b)
 print("Solution du système d'équations: ", sol)
 
 # Affichage du graphique 
-plt.plot(x, f) 
+plt.plot(x, f, 'g-', label="f(x)") 
 plt.title(r"Graphique de la fonction $f(x)=x^2$")
+plt.legend()
 plt.xlabel("x") 
 plt.ylabel("f(x)")
 plt.grid() 
