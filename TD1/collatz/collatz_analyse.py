@@ -22,8 +22,9 @@ iterations_collatz = [collatz(num) for num in range(1, 5001)]
 
 #Graphiques
 #### QUESTION B 
-plt.plot(range(1,5001), iterations_collatz, '.')
+plt.plot(range(1,5001), iterations_collatz, '.', label="Itérations de la conjecture")
 plt.grid() 
+plt.legend() 
 plt.title("Itérations de la conjecture de Collatz pour les entiers entre 1 et 5000")
 plt.xlabel("Nombres entiers") 
 plt.ylabel("Nombre d'itérations de la conjecture de Collatz")
@@ -45,10 +46,11 @@ freq = dict(sorted(freq.items()))
 results = np.array(list(freq.items())) 
 # créons le graphique 
 fig, ax = plt.subplots() 
-ax.bar(results[:,0], results[:,1])
+ax.bar(results[:,0], results[:,1], label="Fréquence")
 plt.title("Nombre d'itérations obtenus en applicant la conjecture de Collatz sur des entiers de 1 à 5000 et leur fréquence")
+plt.legend()
 plt.xlabel("Nombre d'itérations") 
-plt.ylabel("Fréquence pour des entiers entre 1 et 5000")
+plt.ylabel("Fréquence d'apparition pour des entiers entre 1 et 5000")
 plt.show() 
 #Correction
 pytest.main(['-q', '--tb=long', 'collatz_corr.py'])

@@ -37,6 +37,9 @@ def monte_carlo(x,y):
     # x**2 + y**2 <= (r**2 = 1) 
     
     sum = x**2 + y**2
-    Ncercle = len([i for i in sum if i<=1])# on compte tous les points où la distance est plus petite que  1 (intérieur du cercle) 
+    # on compte tous les points qui restent après avoir enlevé ceux dont la distance est plus grande que  1 (reste juste l'intérieur du cercle) 
+    # utilisation de np.delete et np.where pour éviter une boucle for normale 
+    # j'ai calculé une différence d'environ 4secondes par rapport à l'utilisation d'un for Ncercle = len([i for i in sum if i<=1]) avec time.perfcounter
+    Ncercle = len(np.delete(sum, np.where(sum>=1))) 
     pi = 4 * (Ncercle / len(x))
     return pi ### Valeur retournée

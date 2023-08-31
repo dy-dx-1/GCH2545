@@ -26,15 +26,16 @@ pi_results = list() # liste qui contiendra toutes les approximations de pi
 for pt_density in nb_pts_eval: 
     x, y = genXY(pt_density) 
     pi_results.append(monte_carlo(x,y))
-
 ## Calcul de l'erreur et graphique
 # création d'une liste contenant les erreurs correspondantes en soustrayant pi et les approx
-erreurs = [(np.pi - approx_pi) for approx_pi in pi_results]
+erreurs = [abs(np.pi - approx_pi) for approx_pi in pi_results]
 # création du graphique
-plt.plot(nb_pts_eval, erreurs, '-')
+plt.plot(nb_pts_eval, erreurs, '-', label="Erreur absolue")
+plt.legend()
 plt.xlabel("Nombre de points dans l'approximation") 
-plt.ylabel("Erreur") 
+plt.ylabel("Erreur absolue") 
 plt.title("Erreur commise par la méthode de Monte Carlo dans l'approximation de pi avec différents points")
+plt.xticks(np.arange(100, 10001, 990))
 plt.grid() 
 plt.show() 
 # Correction

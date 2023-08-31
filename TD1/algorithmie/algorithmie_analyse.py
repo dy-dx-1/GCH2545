@@ -13,11 +13,12 @@ import algorithmie_corr
 # Série harmonique
 domain = range(50, 1001)
 image_harm = [serie_harmonique(i) for i in domain] # Calcul des sommes pour des entiers de 50 à 1000
-plt.plot(domain, image_harm, '.-', label="S(N)")
+plt.plot(domain, image_harm, '-', label="S(N)")
 plt.legend()
-plt.xlabel("Quantité d'itérations")
-plt.ylabel("Résultat de la somme S")
+plt.xlabel("Nombre d'itérations")
+plt.ylabel("Résultat de la somme S(N)")
 plt.title("Somme donnée par la série harmonique avec des itérations N allant de 50 à 1000")
+plt.xticks(np.arange(50, 1001, 190))
 plt.grid() 
 plt.show() 
 
