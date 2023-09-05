@@ -10,11 +10,11 @@ def g(x):
     Sortie:
         - Valeur obtenue après calcul
     """
-    # Fonction à écrire
-    
-    return # à compléter
+    num = 2*np.sqrt(x**3) + 2*np.sqrt(x)
+    denum = 1+x 
+    return (num/denum) - (3*np.arctan(np.sqrt(x)))
 
-def diff_arriere_ordre1(x,h):
+def diff_arriere_ordre1(x,h:float):
     """Fonction qui calcule l'approximation de la dérivée numérique, selon le
     schéma arrière d'ordre 1, pour une fonction quelconque
     
@@ -27,9 +27,7 @@ def diff_arriere_ordre1(x,h):
     """
     assert isinstance(h,float), "Pas h pas du bon type."
     
-    # Fonction à écrire
-    
-    return # à compléter
+    return (g(x)-g(x-h))/h
 
 def diff_centree_ordre2(x,h):
     """Fonction qui calcule l'approximation de la dérivée numérique, selon le
@@ -44,6 +42,4 @@ def diff_centree_ordre2(x,h):
     """
     assert isinstance(h,float), "Pas h pas du bon type."
     
-    # Fonction à écrire
-    
-    return # à compléter
+    return (g(x+h)-g(x-h))/(2*h)
