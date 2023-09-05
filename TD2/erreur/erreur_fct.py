@@ -10,7 +10,7 @@ def g(x):
     Sortie:
         - Valeur obtenue après calcul
     """
-    num = 2*np.sqrt(x**3) + 2*np.sqrt(x)
+    num = 2*np.sqrt(x**3) + 3*np.sqrt(x)
     denum = 1+x 
     return (num/denum) - (3*np.arctan(np.sqrt(x)))
 
