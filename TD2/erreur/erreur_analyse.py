@@ -18,20 +18,15 @@ import erreur_corr
 # graphique comparant les erreurs pour chaque schéma.
 #-----------------------------------------------------------------------------
 
-# création du domaine 
-domaine = []
-element = 0.1 # valeurs du domaine allant de x1 à x2 
-x2 = np.pi/2
+# création du domaine
 delta = 0.1 
-while element<=x2: 
-    domaine.append(element)
-    element+=0.1 
-print(domaine)
+domaine = np.linspace(0.1, np.pi/2, 100) 
+
 #%% Dérivée première, schéma d'ordre 1
-image_ordre_1 = [diff_arriere_ordre1(x, delta) for x in domaine] 
+image_ordre_1 = diff_arriere_ordre1(domaine, delta)
 
 #%% Dérivée première, schéma d'ordre 2
-image_ordre_2 = [diff_centree_ordre2(x, delta) for x in domaine] 
+image_ordre_2 = diff_centree_ordre2(domaine, delta) 
 
 # Affichage
 print("Approx de g'(x=0.5) avec un deltaX de 0.1 et une méthode de premier ordre: g'(x) ≈ ", diff_arriere_ordre1(0.5, delta))
@@ -62,7 +57,7 @@ plt.plot(variations_pas, erreurs_ordre_1, 'g.-', label="Erreur pour l'approx d'o
 plt.plot(variations_pas, erreurs_ordre_2, 'b.-', label="Erreur pour l'approx d'ordre 2")
 plt.legend()
 plt.grid()
-plt.xlabel("Taille du pas $\delta x$")
+plt.xlabel("Taille du pas $\Delta x$")
 plt.ylabel("Erreur absolue")
 plt.title("Erreur entre la différentiation pas arrière, centrée et la fonction scipy.misc.derivative selon la taille du pas") 
 plt.yscale("log") 

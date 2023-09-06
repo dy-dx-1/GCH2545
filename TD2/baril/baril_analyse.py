@@ -51,12 +51,19 @@ accel_theo = acceleration(constantes)
 
 #%% Erreur commise sur la vitesse
 
-
+# on a une liste de reférences pour vitesse 
+# sommer erreurs de chaque paire calcul-ref?
+e_v = sum(abs((vitesses_approx-vitesses_theo) / vitesses_theo)) / len(vitesses_approx)
+print("Erreur vitesse", e_v) 
 # Affichage du tableau
 
 
 #%% Erreur commise sur l'accélération
-
+# on a une valeur ref d'accel donc il faut la soustraire à notre liste d'accel calculees 
+# need to cast accel_approx to array pour permettre ces opérations
+accel_approx = np.array(accel_approx) 
+e_a = sum(abs((accel_approx-accel_theo) / accel_theo)) / len(accel_approx)
+print("Erreur accel: ", e_a) 
 
 # Affichage du tableau
 

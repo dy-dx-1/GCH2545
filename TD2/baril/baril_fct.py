@@ -20,10 +20,8 @@ def diff1(h,dt):
     vitesse = []
     for i in range(len(h)): 
       if i==0: # si première itération utiliser pas avant 
-          print("h1", i)
           v = (-h[i+2] + (4*h[i+1]) - (3*h[i]))/(2*dt)
       elif i==len(h)-1: # si dernière itération utiliser pas arrière 
-          print("h2", i)
           v = ((3*h[i]) - (4*h[i-1]) + (h[i-2]))/(2*dt)
       else: # on est au milieu donc entourés de pts, utiliser approche centrée 
           v = (h[i+1]-h[i-1])/(2*dt) 
@@ -42,7 +40,7 @@ def diff2(h,dt):
       - Vecteur (array) contenant les valeurs numériques de la dérivée seconde
     """
     # Je vais procèder de la même façon qu'à la fonction de diff1 en utilisant les méthodes de pas avant, arrière et centrée selon l'indice analysé 
-    dt = 5   # domaine et pas tjrs les mêmes 
+    # domaine et pas tjrs les mêmes 
     acceleration = []
     for i in range(len(h)): 
       if i==0: # si première itération utiliser pas avant 
@@ -52,7 +50,7 @@ def diff2(h,dt):
       else: # on est au milieu donc entourés de pts, utiliser approche centrée 
           a = (h[i+1]-(2*h[i])+(h[i-1]))/(dt**2)
       acceleration.append(a) 
-    return acceleration
+    return np.array(acceleration) 
       
 
 #------------------------------Fonction acceleration()-----------------------#
