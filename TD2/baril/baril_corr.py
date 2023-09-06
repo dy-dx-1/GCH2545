@@ -14,7 +14,6 @@ class Test:
 
     def test_diff2(self):
         err_diff21 = abs(diff2(np.array([0, 1.3, 3.9, 4.1, 6.5]), 1)[0:5:2] - np.array([1.3, -2.4, 2.2]))
-        print(err_diff21)
         assert all(err_diff21 < 1e-06)
         err_diff22 = abs(diff2(np.array([64, 49, 36, 25, 16, 9, 4, 1]), 9) - 0.02469136)
         assert all(err_diff22 < 1e-06)
