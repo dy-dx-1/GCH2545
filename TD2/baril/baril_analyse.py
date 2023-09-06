@@ -17,35 +17,37 @@ import baril_corr
 #-----------------------------------------------------------------------------
 
 class constantes():
-    rc = 0      # rayon du cylindre
-    rv = 0      # rayon de la vanne
-    gamma = 0   # Coefficient de correction
-    g = 0       # accélération gravitationnelle
+    rc = 2/2      # rayon du cylindre
+    rv = 20/200      # rayon de la vanne
+    gamma = 0.6   # Coefficient de correction
+    g = 9.81       # accélération gravitationnelle
 
 
 #%% Mesures expérimentales
-
+domaine = np.array([0,5,10,15,20])
+hauteur = np.array([0.6350, 0.5336, 0.4410, 0.3572, 0.2822])
+delta = 5
 
 #%% Appel de la fonction diff1
-
+vitesses_approx = diff1(hauteur, delta)
 
 # Affichage du tableau
 
 
 #%% Appel de la fonction diff2
-
+accel_approx = diff2(hauteur, delta) 
 
 # Affichage du tableau
 
 
 #%% Calcul de la vitesse théorique
-
+vitesses_theo = vitesse(hauteur, constantes) 
 
 # Affichage du tableau
 
 
 #%% Calcul de l'accélération théorique
-
+accel_theo = acceleration(constantes) 
 
 #%% Erreur commise sur la vitesse
 

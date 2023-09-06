@@ -12,26 +12,48 @@ def diff1(h,dt):
     Sortie:
       - Vecteur (array) contenant les valeurs numériques de la dérivée première
     """
-    
-    # Fonction à écrire
-    
-    return # à compléter
+  
+    # Étant donné qu'une approximation d'ordre 2 est imposée ET qu'on demande de prioriser l'utilisation de 2 points, 
+    # il faudra utiliser la méthode pas arrière ordre 2, pas avant ordre 2 et la méthode centrée afin de bien évaluer la dérivée 
+    # au départ de l'intervalle (3pts, pas avant), à la fin de celui-ci (3pts, pas arrière) et entre les 2 (2pts, centrée)
+    # dans notre cas le delta de temps est constant donc on n'a pas à toucher au domaine! On ne jouera que sur les indices 
+    vitesse = []
+    for i in range(len(h)): 
+      if i==0: # si première itération utiliser pas avant 
+          print("h1", i)
+          v = (-h[i+2] + (4*h[i+1]) - (3*h[i]))/(2*dt)
+      elif i==len(h)-1: # si dernière itération utiliser pas arrière 
+          print("h2", i)
+          v = ((3*h[i]) - (4*h[i-1]) + (h[i-2]))/(2*dt)
+      else: # on est au milieu donc entourés de pts, utiliser approche centrée 
+          v = (h[i+1]-h[i-1])/(2*dt) 
+      vitesse.append(v) 
+    return vitesse
 
 #-------------------------------------Fonction diff2()-----------------------#
 def diff2(h,dt):
     """Fonction qui calcule la dérivée seconde
     
     Entrées:
-      - h : hauteur du liquide, sera un vecteur (array), de longueur quelconque
+      - h : h du liquide, sera un vecteur (array), de longueur quelconque
       - dt : pas de temps [float]
     
     Sortie:
       - Vecteur (array) contenant les valeurs numériques de la dérivée seconde
     """
-    
-    # Fonction à écrire
-    
-    return # à compléter
+    # Je vais procèder de la même façon qu'à la fonction de diff1 en utilisant les méthodes de pas avant, arrière et centrée selon l'indice analysé 
+    dt = 5   # domaine et pas tjrs les mêmes 
+    acceleration = []
+    for i in range(len(h)): 
+      if i==0: # si première itération utiliser pas avant 
+          a = (h[i+2]-(2*h[i+1])+h[i])/(dt**2)
+      elif i==len(h)-1: # si dernière itération utiliser pas arrière 
+          a = (h[i]-(2*h[i-1])+h[i-2])/(dt**2)
+      else: # on est au milieu donc entourés de pts, utiliser approche centrée 
+          a = (h[i+1]-(2*h[i])+(h[i-1]))/(dt**2)
+      acceleration.append(a) 
+    return acceleration
+      
 
 #------------------------------Fonction acceleration()-----------------------#
 def acceleration(cst):
@@ -55,7 +77,7 @@ def vitesse(h,cst):
     """Fonction qui calcule la vitesse théorique de la surface libre
     
     Entrées:
-      - h : hauteur du liquide, sera un vecteur (array), de longueur quelconque
+      - h : h du liquide, sera un vecteur (array), de longueur quelconque
       - Un objet contenant les constantes du problème
           - rc : rayon du cylindre
           - rv : rayon de l'ouverture
