@@ -16,7 +16,8 @@ def g(x):
 
 def diff_arriere_ordre1(x,h:float):
     """Fonction qui calcule l'approximation de la dérivée numérique, selon le
-    schéma arrière d'ordre 1, pour une fonction quelconque
+    schéma arrière d'ordre 1, pour une fonction quelconque 
+    ##########################NOTE: j'imagine que l'énoncé à été modifié car la fonction n'a pas d'argument défini pour prendre une fonction, j'utilise donc g(x) directement
     
     Entrée:
         - x : Variable indépendante
