@@ -30,11 +30,22 @@ def gauss(a,b,n):
     w = np.empty(n)
 
     if n == 1:
-        pass# à compléter, pass doit être remplacer par le bon code
+        t[0] = 0 
+        w[0] = 2 
     elif n == 2:
-        pass# à compléter, pass doit être remplacer par le bon code
+        t[0] = -np.sqrt(1/3) 
+        t[1] = np.sqrt(1/3)
+
+        w[0] = 1 
+        w[1] = 1 
     elif n == 3:
-        pass# à compléter, pass doit être remplacer par le bon code
+        t[0] = -(np.sqrt(15)/5) 
+        t[1] = 0 
+        t[2] = np.sqrt(15)/5 
+
+        w[0] = 5/9 
+        w[1] = 8/9 
+        w[2] = 5/9 
     elif n == 4:
         t[0] = (-np.sqrt(525 + 70*np.sqrt(30)))/35
         t[1] = (-np.sqrt(525 - 70*np.sqrt(30)))/35
@@ -58,7 +69,12 @@ def gauss(a,b,n):
         w[3] = (322 + 13*np.sqrt(70))/900
         w[4] = (322 - 13*np.sqrt(70))/900
 
-    # Calcul de l'intégrale
-    # à compléter
-
-    return # à compléter
+    # Soit g(x), la fonction équivalente à intégrer sur le domaine [-1,1] 
+    g = lambda x: fonc( ( ((b-a) *x) + (a+b) )/2) * ((b-a) / 2)
+    # Évaluons maintenant l'intégrale I avec la somme définie par Gauss-Legendre
+    print("INFO OUTPUT___")
+    print("Vect w: ", w) 
+    print("Vect t: ", t) 
+    print("w*g(t): ", w*g(t))
+    I = sum(w*g(t)) 
+    return I 
