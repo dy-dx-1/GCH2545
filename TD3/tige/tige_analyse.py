@@ -23,7 +23,9 @@ except:
 
 
 #%% Calcul de l'erreur commise
-
+ref_t = 0.99888139 
+err = [abs(ref_t-gauss(0, np.pi/2, n)) for n in range(1, 6)]
+plt.plot(range(1,6), err, "g.-", label="")
 
 # Affichage du graphique
 

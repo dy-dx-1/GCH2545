@@ -11,7 +11,7 @@ def fonc(u):
         - Valeur de la variable dépendante
     """
 
-    return # à compléter
+    return 1 / np.sqrt(8*np.sin(u) - u)
 
 def gauss(a,b,n):
     """Fonction qui calcule l'intégrale selon Gauss-Legendre
