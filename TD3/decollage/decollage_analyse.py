@@ -15,10 +15,10 @@ except:
 
 #%% Données du problème
 class constantes():
-    rho = 0         # Densité de l'air [kg/m^3]
-    S = 0           # Surface de référence [m^2]
-    C = 0           # Coefficient de friction [-]
-    m = 0           # Masse de l'avion [kg]
+    rho = 1.341       # Densité de l'air [kg/m^3]
+    S = 580           # Surface de référence [m^2]
+    C = 0.027         # Coefficient de friction [-]
+    m = 250000            # Masse de l'avion [kg] ## assumant 1ton = 1000kg
 
 t = np.array([0,1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]) # Temps [s]
 v = np.array([0,4,17,33,50,67,83,100,117,133,150,167,183,200,217,233,250]) # Vitesse [km/h]
