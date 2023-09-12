@@ -72,9 +72,5 @@ def gauss(a,b,n):
     # Soit g(x), la fonction équivalente à intégrer sur le domaine [-1,1] 
     g = lambda x: fonc( ( ((b-a) *x) + (a+b) )/2) * ((b-a) / 2)
     # Évaluons maintenant l'intégrale I avec la somme définie par Gauss-Legendre
-    print("INFO OUTPUT___")
-    print("Vect w: ", w) 
-    print("Vect t: ", t) 
-    print("w*g(t): ", w*g(t))
     I = sum(w*g(t)) 
     return I 
