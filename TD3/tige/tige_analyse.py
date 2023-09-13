@@ -20,7 +20,6 @@ except:
 resultats = np.array([gauss(0, np.pi/2, n) for n in range(1,6)]) # on a besoin de le cast à array pour simplifier les manips qu'on fera plus tard 
 
 # Affichage en tableau
-###TODO: Confirm c'est quoi qu'on doit afficher, l'énoncé dit tableau 
 plt.plot(range(1,6), resultats, "b.", label="Résultat de l'intégrale") 
 plt.title("Résultat de l'intégrale avec la méthode de Gauss-Legendre selon différents nombres de points") 
 plt.xlabel("Nombre de points utilisé") 
@@ -34,7 +33,7 @@ ref_t = 0.99888139
 err = abs(resultats-ref_t) 
 
 # Affichage du graphique
-plt.plot(range(1,6), err, "g.-", label="Erreur absolue")
+plt.plot(range(1,6), err, "r.-", label="Erreur absolue", markersize=10)
 plt.title("Erreur produite selon le nombre de points utilisés par la quadrature")
 plt.xlabel("Nombre de points") 
 plt.ylabel("Erreur absolue") 
