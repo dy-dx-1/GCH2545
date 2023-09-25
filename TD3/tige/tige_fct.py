@@ -73,4 +73,6 @@ def gauss(a,b,n):
     g = lambda x: fonc( ( ((b-a) *x) + (a+b) )/2) * ((b-a) / 2)
     # Évaluons maintenant l'intégrale I avec la somme définie par Gauss-Legendre
     I = sum(w*g(t)) 
+    # Petit output pour répondre au quiz moodle 
+    print(f"Résultat de l'intégrale pour n = {n} : {I}")
     return I 

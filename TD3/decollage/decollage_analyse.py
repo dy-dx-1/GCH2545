@@ -20,12 +20,12 @@ class constantes():
     C = 0.027         # Coefficient de friction [-]
     m = 250000            # Masse de l'avion [kg] ## assumant 1ton = 1000kg
 
-t = np.array([0,1,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]) # Temps [s]
+t = np.array([0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32]) # Temps [s]
 v = np.array([0,4,17,33,50,67,83,100,117,133,150,167,183,200,217,233,250]) # Vitesse [km/h]
 v_std = v/3.6   # Vitesses en m/s pour utiliser dans les calculs 
 
 #%% Accélération en fonction du temps [m/s**2] 
-accels = acc(v_std, 2) #TODO: Confirm: dt variable dans tableau de données, mais fonction demande un dt fixe. Tests sont tous réussis donc qu,elle valeur utiliser ? 
+accels = acc(v_std, 2) 
 
 #%% Force de poussée de l'avion
 forces_poussee = force_poussee(v_std, accels, constantes())
