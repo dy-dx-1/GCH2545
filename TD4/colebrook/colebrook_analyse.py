@@ -19,9 +19,9 @@ except:
 class constantes():
     # IMPORTANT: Ne pas changer le nom des variables (attributes) dans la class
     # Seulement les valeurs doivent être changées
-    Re = 0      # Nombre de Reynolds [-]
-    k = 0       # Rugosité [m]
-    D = 0       # Diamètre de la conduite [m]
+    Re = 13743      # Nombre de Reynolds [-]
+    k = 3.375/1000       # Rugosité [m]
+    D = 30/100       # Diamètre de la conduite [m]
 
 cst = constantes()
 

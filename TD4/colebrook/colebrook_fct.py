@@ -14,11 +14,10 @@ def f(l,cst):
     Sortie:
         - Valeur numérique de la fonction
         
-    """
-    
-    # Fonction à écrire
-    
-    return # à compléter
+    """  
+    log = np.log10( (cst.k/(3.7*cst.D)) + (2.51/(cst.Re*np.sqrt(l))) )
+    f_l = (1/np.sqrt(l)) + (2*log)      # tel que f(lambda) = [equation avec lambda] = 0 
+    return f_l 
 
 def bissection(x1,x2,tol,N,cst):
     """Fonction calculant une racine d'une fonction grâce la bissection
