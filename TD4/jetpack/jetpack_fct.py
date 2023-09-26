@@ -65,7 +65,24 @@ def newton_numerique(x,tol,prm):
             - vecteur[1] : solution de la vitesse de sortie [m/s]
             - vecteur[2] : solution de la vitesse de l'angle d'inclinaison [rad]
     """
-    
-    # Fonction à écrire
-    
-    return # à compléter
+    corrections = np.array([1,1,1])
+    while np.linalg.norm(corrections)>tol: # pas de max itérations défini car pas donné dans l'énoncé 
+        # Calcul du vecteur résidu R 
+        R = residu(x, prm) 
+        
+        # Construisons la matrice Jacobienne 3x3 
+        J = np.zeros((3,3))
+        for i in range(3): 
+            perturbation = np.zeros(3) 
+            perturbation[i] = x[i]*tol 
+            x_perturbe = x + perturbation 
+            # évaluons maintenant la dérivée numérique, soit R(xperturbe) - R(x) [les évaluations de fi]/ xi*tol [le pas] 
+            J[: ,i] = (residu(x_perturbe, prm)-R)/(x[i]*tol)    # On indexe toutes les lignes à la colonne i pour les remplacer par les différentielles 
+        
+        # Résolvons maintenant le système linéaire J*deltas = -R 
+        corrections = np.linalg.solve(J, -R)
+
+        # Puis appliquons la correction sur notre nouvel x 
+        x += corrections 
+
+    return x
