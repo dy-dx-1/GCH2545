@@ -35,7 +35,15 @@ def bissection(x1,x2,tol,N,cst):
         - Valeur numérique de la racine de la fonction
     
     """
-    
-    # Fonction à écrire
-    
-    return # à compléter
+    n=0 
+    while abs(x2-x1)>tol and n<N: # Continuer à itérer tant que la dist entre les bornes est > que tolérance et qu'on dépasse pas le max d'itérations 
+        # Déterminons le point milieu de notre intervalle, assumant qu'un zéro est présent à l'intérieur de celui-ci 
+        xm = (x1+x2)/2 
+        # Vérifions si le zéro est vers la droite ou la gauche de l'intervalle, puis réajustons le selon le cas 
+        if f(x2, cst)*f(xm, cst) < 0: # si le zéro est à droite 
+            x1 = xm 
+        else:
+            x2 = xm 
+        n+=1 
+
+    return xm if n!=N else None 
