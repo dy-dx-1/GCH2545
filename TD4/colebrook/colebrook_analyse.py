@@ -26,8 +26,15 @@ class constantes():
 cst = constantes()
 
 #%% Affichage du graphique
-
-
+# Affichons f(l) pour l ]0, 1] 
+lambdas = np.linspace(0, 1, 50)[1:] # on ne prend pas la première valeur de 0 
+f_l = f(lambdas, cst) 
+plt.plot(lambdas, f_l, 'g-', label=r"$f(\lambda)$")
+plt.xlabel("$\lambda$") 
+plt.ylabel("$f(\lambda)$")
+plt.title("")
+plt.legend()
+plt.grid() 
 plt.show()
 
 #%% Appel de la fonction bissection()
