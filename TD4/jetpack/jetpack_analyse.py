@@ -16,12 +16,12 @@ except:
 
 # Données du problème
 class parametres():
-    g = 0       # Accélération gravitationnelle [m/s^2]
-    rho = 0     # Masse volumique [kg/m^3]
-    D_e = 0     # Diamètre du boyau [m]
-    D_s = 0     # Diamètre des propulseurs [m]
-    m = 0       # Masse [kg]
-    F = 0       # Force du vent [N]
+    g = 9.81       # Accélération gravitationnelle [m/s^2]
+    rho = 1000     # Masse volumique [kg/m^3]
+    D_e = 20/100     # Diamètre du boyau [m]
+    D_s = 5/100     # Diamètre des propulseurs [m]
+    m = 70       # Masse [kg]
+    F = 200       # Force du vent [N]
 prm = parametres()
 
 # Appel de la fonction
