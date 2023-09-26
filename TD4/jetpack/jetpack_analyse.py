@@ -25,7 +25,10 @@ class parametres():
 prm = parametres()
 
 # Appel de la fonction
+estime = [2,10,np.pi/4]
+tol = 1e-06 
+reponses = newton_numerique(estime, tol, prm)
 
-
+print(f"Résultats des calculs: \nVitesse entrante: {reponses[0]}[m/s]\nVitesse sortante: {reponses[1]}[m/s]\nAngle d'inclinaison: {reponses[2]} [rad]")
 # Correction
 pytest.main(['-q', '--tb=long', 'jetpack_corr.py'])
