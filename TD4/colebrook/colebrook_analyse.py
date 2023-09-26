@@ -27,7 +27,7 @@ cst = constantes()
 
 #%% Affichage du graphique
 # Affichons f(l) pour l ]0, 1] 
-lambdas = np.linspace(0, 1, 50)[1:] # on ne prend pas la première valeur de 0 
+lambdas = np.linspace(0, 1, 100)[1:] # on ne prend pas la première valeur de 0 
 f_l = f(lambdas, cst) 
 plt.plot(lambdas, f_l, 'g-', label=r"$f(\lambda)$")
 plt.xlabel("$\lambda$") 
@@ -38,12 +38,14 @@ plt.grid()
 plt.show()
 
 #%% Appel de la fonction bissection()
-
+# trouvons le 0 de f(l) 
+print(f"Point initial: {lambdas[0]} \nPoint final: 0.2")
+l = bissection(lambdas[0], 0.2, 1e-6, 100, cst)
 
 #%% Appel de la fonction scipy (Supprimez les symboles de commentaire après avoir défini f)
-#l_scipy = fsolve(f,0.001,args=(cst))
-#print("Le coefficient de friction trouvé par scipy est %f" % l_scipy)
-
+l_scipy = fsolve(f,0.001,args=(cst))
+print("Le coefficient de friction trouvé par bissection() est ", l)
+print("Le coefficient de friction trouvé par scipy est %f" % l_scipy)
 
 # Correction
 pytest.main(['-q', '--tb=long', 'colebrook_corr.py'])
