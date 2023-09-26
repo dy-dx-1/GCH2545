@@ -26,10 +26,21 @@ def residu(x,prm):
     NB: - Simplifiez le bilan de masse pour qu'il ne soit fonction que des vitesses et des surfaces
     
     """
+    ve = x[0] 
+    vs = x[1] 
+    theta = x[2]
+    R = list() 
+
+    # calcul du premier résidu R[0] = Eq_bilan_f_vertical = 0 
+    R.append( (2*np.pi*prm.rho*np.power((prm.D_s*0.5*vs), 2)*np.cos(theta)) + (np.pi*prm.rho*np.power(prm.D_e*0.5*ve, 2)) - (prm.m*prm.g) )
     
-    # Fonction à écrire
-    
-    return # à compléter
+    # calcul du deuxième réside R[1] = Eq_bilan_f_horizontal = 0 
+    R.append( (-2*np.pi*prm.rho*np.power(prm.D_s*0.5*vs, 2)*np.sin(theta)) + (prm.F) )
+
+    # calcul du troisième résidu R[2] = Eq_bilan_masse = 0 
+    R.append( (-ve*np.pi*np.power(prm.D_e*0.5, 2)) + (2*vs*np.pi*np.power(prm.D_s*0.5, 2)) )
+
+    return np.array(R) # cast à array avant de renvoyer pour respecter out de la fonction 
 
 def newton_numerique(x,tol,prm):
     """Fonction résolvant le système d'équations avec la méthode de Newton et un jacobien numérique
