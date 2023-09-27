@@ -25,7 +25,7 @@ class parametres():
 prm = parametres()
 
 # Appel de la fonction
-estime = [2,10,np.pi/4]
+estime = [1.1,8.5,np.pi/4] # logique derriere les estimés expliquée sur moodle 
 tol = 1e-06 
 reponses = newton_numerique(estime, tol, prm)
 

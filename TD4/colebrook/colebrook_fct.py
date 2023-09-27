@@ -16,7 +16,7 @@ def f(l,cst):
         
     """  
     log = np.log10( (cst.k/(3.7*cst.D)) + (2.51/(cst.Re*np.sqrt(l))) )
-    return (1/np.sqrt(l)) + (2*log)      # tel que f(lambda) = [equation avec lambda] = 0 
+    return -(1/np.sqrt(l)) - (2*log)      # tel que f(lambda) = [equation avec lambda] = 0 
 
 def bissection(x1,x2,tol,N,cst):
     """Fonction calculant une racine d'une fonction grâce la bissection
@@ -46,4 +46,4 @@ def bissection(x1,x2,tol,N,cst):
             x2 = xm 
         n+=1 
 
-    return xm if n!=N else None 
+    return xm if n!=N else None  # Retour de None si on a pas réussi à converger en N itérations 
