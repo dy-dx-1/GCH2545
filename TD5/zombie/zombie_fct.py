@@ -21,10 +21,11 @@ def residu(y,yi,prm,dt):
     Sortie:
         - Vecteur (array) contenant les valeurs numériques du résidu
     """
-    
-    # Fonction à écrire
-
-    return # à compléter
+    # Calculons les lignes 1 à 1 pour essayer de garder le tout clair 
+    l1 = yi[0] - y[0] + dt*(prm.p - y[0] * (prm.b*y[1] + prm.d))
+    l2 = yi[1] - y[1] + dt*(y[1]*y[0]*(prm.b-prm.a) + y[2]*prm.e)
+    l3 = yi[2] - y[2] + dt*(-prm.e*y[2] + y[0]*(prm.d + prm.a*y[1])) 
+    return np.array([l1, l2, l3])
 
 def jacobien(y,prm,dt):
     """Fonction calculant le jacobien de la dynamique d'une invasion de zombie
