@@ -87,7 +87,22 @@ def euler_implicite(ci,dt,tf,tol,prm):
         - Matrice (array de taille (temps, 3)) des solutions de y en fonction du temps
         - Vecteur (array) du temps de simulation
     """
-    
-    # Fonction à écrire
+    solutions = [ci]
+    temps = [0] 
+    t = 0 # temps initial 
+    y = np.copy(ci) # on commence notre vecteur solution avec les conditions initiales comme estimé 
+    yi = np.copy(ci)  
+    while t<tf: # on continue de calculer le prochain résultat sur tout le domaine temporel voulu 
+        # Pour calculer les solutions à un temps t on doit résoudre un équa non linéaire venant du fait 
+        # qu'on a utilisé euler implicite. Utilisons la méthode de Newton-Raphson pour résoudre chaque sol à chaque pas de temps 
+        correction = np.ones(3) # valeur quelquonque plus grande que tol pour partir la méthode 
+        while np.linalg.norm(correction)>tol: # on suppose une convergence
+            # Résoudre le sys matriciel Jacobien résidu pour avoir la nouvelle correction 
+            correction = np.linalg.solve(jacobien(y, prm=prm, dt=dt), -residu(y, yi, prm, dt))
+            y += correction # on évalue le nouveau vecteur 
+        yi = np.copy(y) # on set les estimés initiaux aux valeurs calculées précedemment 
+        t+=dt # passer au prochain pas de temps  
 
+        solutions.append(y) 
+        temps.append(t) # contribution à liste de temps de simulation 
     return # à compléter
