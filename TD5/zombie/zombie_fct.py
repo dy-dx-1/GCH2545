@@ -46,10 +46,24 @@ def jacobien(y,prm,dt):
     Sortie:
         - Matrice (array) contenant les valeurs numériques du jacobien
     """
-    
-    # Fonction à écrire
+    S, Z, R = y[0], y[1], y[2] 
+    # calcul des dérivées partielles 
+    dr1_ds = -1 -dt*(prm.b*Z+prm.d) 
+    dr1_dz = -S*dt*prm.b 
+    dr1_dr = 0 
 
-    return # à compléter
+    dr2_ds = dt*Z*(prm.b-prm.a) 
+    dr2_dz = -1+S*dt*(prm.b-prm.a) 
+    dr2_dr = dt*prm.e 
+
+    dr3_ds = dt*(prm.d + prm.a*Z) 
+    dr3_dz = dt*S*prm.a 
+    dr3_dr = -1 - dt*prm.e 
+
+    J = np.vstack(([dr1_ds, dr1_dz, dr1_dr],
+                   [dr2_ds, dr2_dz, dr2_dr], 
+                   [dr3_ds, dr3_dz, dr3_dr]))
+    return J
 
 def euler_implicite(ci,dt,tf,tol,prm):
     """Fonction calculant le résidu de la dynamique d'une invasion de zombie
