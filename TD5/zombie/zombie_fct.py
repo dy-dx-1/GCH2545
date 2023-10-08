@@ -103,6 +103,6 @@ def euler_implicite(ci,dt,tf,tol,prm):
         yi = np.copy(y) # on set les estimés initiaux aux valeurs calculées précedemment 
         t+=dt # passer au prochain pas de temps  
 
-        solutions.append(y) 
+        solutions.append(y) # Liste de forme [ [y] , [y+dt] , ...]
         temps.append(t) # contribution à liste de temps de simulation 
-    return # à compléter
+    return np.array(solutions), temps 
