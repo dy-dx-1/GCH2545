@@ -87,22 +87,27 @@ def euler_implicite(ci,dt,tf,tol,prm):
         - Matrice (array de taille (temps, 3)) des solutions de y en fonction du temps
         - Vecteur (array) du temps de simulation
     """
+    t = 0 # temps initial 
+    y = np.array(ci) # on commence notre vecteur solution avec les conditions initiales comme estimé 
+    yi = np.array(ci)  # on a besoin d'un array pour les opérations plus tard & faire une copie 
     solutions = [ci]
     temps = [0] 
-    t = 0 # temps initial 
-    y = np.copy(ci) # on commence notre vecteur solution avec les conditions initiales comme estimé 
-    yi = np.copy(ci)  
     while t<tf: # on continue de calculer le prochain résultat sur tout le domaine temporel voulu 
         # Pour calculer les solutions à un temps t on doit résoudre un équa non linéaire venant du fait 
         # qu'on a utilisé euler implicite. Utilisons la méthode de Newton-Raphson pour résoudre chaque sol à chaque pas de temps 
         correction = np.ones(3) # valeur quelquonque plus grande que tol pour partir la méthode 
         while np.linalg.norm(correction)>tol: # on suppose une convergence
             # Résoudre le sys matriciel Jacobien résidu pour avoir la nouvelle correction 
-            correction = np.linalg.solve(jacobien(y, prm=prm, dt=dt), -residu(y, yi, prm, dt))
+            correction = np.linalg.solve(jacobien(y, prm, dt), -residu(y, yi, prm, dt))
             y += correction # on évalue le nouveau vecteur 
-        yi = np.copy(y) # on set les estimés initiaux aux valeurs calculées précedemment 
+        yi = np.copy(y)  # on set les estimés initiaux aux valeurs calculées précedemment 
         t+=dt # passer au prochain pas de temps  
-
-        solutions.append(y) # Liste de forme [ [y] , [y+dt] , ...]
-        temps.append(t) # contribution à liste de temps de simulation 
-    return np.array(solutions), temps 
+        solutions.append(np.copy(y)) # Liste de forme [ [y] , [y+dt] , ...]
+        # important d'ajouter une copie de y à la liste de solutions, car comme les listes sont des 
+        # objets mutables, par défaut python ne fait que pointer au même spot dans la mémoire où y est situé 
+        # donc, si on ne copie pas, à chaque fois que y est modifié dans Newton-Raphson, sa valeur dans 
+        # la liste de solutions est modifiée, ce qui mène à avoir une liste de solutions qui ne contient 
+        # que les valeurs initiales (ci) puis plein de doublons du résultat final (dernier update qui serait 
+        # arrivé à la liste)... 
+        temps.append(t) # contribution à liste de temps de simulation, pas de copy car il n'est pas modifié   
+    return np.array(solutions), np.array(temps) 
