@@ -45,6 +45,7 @@ plt.title("Dynamique d'une invasion de zombies sur une période de 20 ans")
 plt.xlabel("Temps en années") 
 plt.ylabel("Nombre d'individus") 
 plt.legend() 
+plt.grid() 
 plt.show()
 
 # Correction
