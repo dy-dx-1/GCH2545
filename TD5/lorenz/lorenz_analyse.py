@@ -18,9 +18,9 @@ except:
 # Assignation des paramètres
 # ATTENTION! Ne pas changer le nom des attributs
 class parametres():
-    o = 0      # sigma
-    b = 0      # beta
-    p = 0      # rho
+    o = 10      # sigma
+    b = 8/3     # beta
+    p = 28      # rho
 prm = parametres()
 
 # Conditions initiales
