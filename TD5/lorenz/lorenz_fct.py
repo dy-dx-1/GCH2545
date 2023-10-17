@@ -16,10 +16,12 @@ def fonc(v,prm):
     Sortie:
         - Vecteur (array) contenant les valeurs numériques du système d'équations
     """
-
-    # Fonction à écrire
-
-    return # à compléter
+    x, y, z = v[0], v[1], v[2] 
+    
+    dx_dt = prm.o * (y - x)
+    dy_dt = prm.p*x - y - x*z 
+    dz_dt = x*y - prm.b*z 
+    return dx_dt, dy_dt, dz_dt 
 
 def rk4(ci,dt,tf,prm):
     """Fonction résolvant le système avec Runge-Kutta 4
