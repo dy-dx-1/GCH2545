@@ -38,14 +38,18 @@ z_vals = sols[:,2]
 ax1 = plt.figure().add_subplot(projection='3d') 
 ax2 =plt.figure().add_subplot(projection='3d') 
 
-ax1.plot(x_vals, y_vals, z_vals, 'r-') 
-
+ax1.plot(x_vals, y_vals, z_vals, 'r') 
+ax1.set_title("Attracteur de Lorenz avec [$x_0$, $y_0$, $z_0$] = [10, 10, 20]")
+ax1.set_xlabel("x");ax1.set_ylabel("y");ax1.set_zlabel("z")
+ax1.grid() 
 # génération du graphique avec condi légèrement perturbées 
 sols, temps = rk4(cond_i+10e-4, dt, t_sim, prm) 
 x_vals, y_vals, z_vals = sols[:,0], sols[:,1], sols[:,2] 
 ax2.plot(x_vals, y_vals, z_vals, 'y-')
+ax2.set_title("Attracteur de Lorenz avec les mêmes conditions initiales perturbées de $10^{-4}$")
+ax2.set_xlabel("x");ax2.set_ylabel("y");ax2.set_zlabel("z")
+ax2.grid() 
 
 plt.show()
-
 # Correction
 pytest.main(['-q', '--tb=long', 'lorenz_corr.py'])
