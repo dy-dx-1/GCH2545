@@ -61,4 +61,4 @@ def rk4(ci,dt,tf,prm):
         sols.append(y_tdt) 
         temps.append(t) 
 
-    return sols, temps 
+    return np.array(sols), np.array(temps) 
