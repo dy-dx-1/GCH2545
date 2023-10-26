@@ -148,7 +148,9 @@ def energie(x,v,prm):
     Sortie:
         - Vecteur (array) composé de l'énergie du système
     """
-
-    # Fonction à écrire
-
-    return # à compléter
+    # Calculons la somme des énergies cinétiques et potentielles à chaque pt 
+    # on assume que x et v ont la même dimension 
+    energie_pot = lambda pos: 0.5*prm.k*(pos**2)
+    energie_k = lambda vit: 0.5*prm.m*(vit**2) 
+    energies = [energie_k(v[i])+energie_pot(x[i]) for i in range(len(x))]
+    return np.array(energies) 
