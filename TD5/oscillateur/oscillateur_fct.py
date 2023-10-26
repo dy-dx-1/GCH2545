@@ -133,7 +133,7 @@ def verlet(ci,dt,tf,prm):
         sols.append(yt)
         temps.append(t) 
         
-    return np.array(sols), np.array(t) 
+    return np.array(sols), np.array(temps) 
 
 def energie(x,v,prm):
     """Fonction de calcul de l'énergie totale du système
