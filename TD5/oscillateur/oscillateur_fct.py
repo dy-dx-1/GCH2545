@@ -16,10 +16,11 @@ def fonc(y,prm):
     Sortie:
         - Vecteur (array) composé des valeurs numériques des équations différentielles
     """
-
-    # Fonction à écrire
-
-    return # à compléter
+    # On ici on n'utilise que des schémas explicites donc notre résidu est juste l'évaluation des dérivées pour une certaine variable dépendante
+    x, v = y[0], y[1] 
+    dx_dt = v 
+    dv_dt = -(prm.k/prm.m)*x 
+    return np.array([dx_dt, dv_dt]) 
 
 def euler_explicite(ci,dt,tf,prm):
     """Fonction de résolution par la méthode d'Euler explicite
