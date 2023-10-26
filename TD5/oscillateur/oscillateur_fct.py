@@ -1,7 +1,6 @@
 # Importation de modules
 import numpy as np
 
-
 def fonc(y,prm):
     """Fonction de calcul de la valeur du résidu des deux équations différentielles du premier ordre.
 
@@ -41,10 +40,20 @@ def euler_explicite(ci,dt,tf,prm):
             - Chaque colonne représente les solutions dans le temps d'une variable
         - Vecteur (array) du temps de simulation
     """
-
-    # Fonction à écrire
-
-    return # à compléter
+    # Euler explicite est simple à implémenter, on n'a qu'à itérer sur le temps et évaluer la valeur des variables à chaque pas 
+    t = 0 
+    yt = ci         # on commence nos solutions avec les conditions initiales 
+    sols = [ci] 
+    temps = [t] 
+    while t<=tf: 
+        # on fait l'évaluation du prochain pas avec la forme matricielle pour avoir une méthode générale à n dimensions 
+        #  c'est juste l'expression de la dérivée explicite, avec le prochain pas isolé
+        ytdt = yt + dt*fonc(yt, prm) 
+        yt = ytdt # maintenant on passe au prochain pas 
+        t+=dt 
+        sols.append(ytdt) 
+        temps.append(t) # on enregistre le temps auquel on a évalué ytdt 
+    return np.array(sols), np.array(temps) 
 
 def rk2(ci,dt,tf,prm):
     """Fonction de résolution par la méthode de Runge Kutta d'ordre 2
