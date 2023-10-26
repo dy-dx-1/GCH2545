@@ -74,10 +74,21 @@ def rk2(ci,dt,tf,prm):
             - Chaque colonne représente les solutions dans le temps d'une variable
         - Vecteur (array) du temps de simulation
     """
+    t = 0 
+    yt = ci          
+    sols = [ci] 
+    temps = [t] 
 
-    # Fonction à écrire
+    while t<=tf: 
+        k1 = dt * fonc(yt, prm)     # notre fonction résidu ne dépend pas du temps 
+        k2 = dt * fonc(yt+(k1/2), prm) 
+        ytdt = yt + k2 
+        t += dt 
+        yt = ytdt # préparation au prochain pas 
+        sols.append(ytdt) 
+        temps.append(t) 
 
-    return # à compléter
+    return np.array(sols), np.array(temps) 
 
 def verlet(ci,dt,tf,prm):
     """Fonction de résolution par la méthode de Verlet
@@ -98,10 +109,31 @@ def verlet(ci,dt,tf,prm):
             - Chaque colonne représente les solutions dans le temps d'une variable
         - Vecteur (array) du temps de simulation
     """
+    t = 0 
+    yt = ci         
+    sols = [ci] 
+    temps = [t] 
 
-    # Fonction à écrire
-
-    return # à compléter
+    while t<=tf: 
+        # Pour cette méthode, on ne peut pas procéder de forme matricielle 
+        # on devra donc développer les différents termes 
+        # tout d'abord on doit définir la fonction acceleration 
+        # ici elle correspond au résidu de v, soit dvdt 
+        accel = lambda y: fonc(y, prm)[1] 
+        # définissons la position et la vitesse courante 
+        xt, vt = yt[0], yt[1] 
+        # évaluons vitesse intermediare et prochain x 
+        vtdemi = vt + 0.5*dt*accel(yt) 
+        # finalement évaluons les prochains pas 
+        xtdt = xt + dt*vtdemi 
+        vtdt = vtdemi + 0.5*dt*accel([xtdt, vtdemi])
+        # puis enregistrons les résultats et préparons le prochain pas 
+        t+=dt 
+        yt = np.array([xtdt, vtdt]) 
+        sols.append(yt)
+        temps.append(t) 
+        
+    return np.array(sols), np.array(t) 
 
 def energie(x,v,prm):
     """Fonction de calcul de l'énergie totale du système
