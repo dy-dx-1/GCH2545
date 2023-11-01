@@ -35,11 +35,13 @@ k = [1.3,50,200]
 prm.k = 1.3 
 
 # Méthode de différences finies
+ti = time.perf_counter_ns() 
 pos, temp_beton = mdf(prm) 
 prm.k = 50
 pos, temp_acier = mdf(prm) 
 prm.k = 200 
 pos, temp_alu = mdf(prm) 
+print(f"Temps de calcul des 3 solutions {(time.perf_counter_ns()-ti):.2f} nanosecondes")
 
 # Graphique
 plt.plot(pos, temp_beton, 'r.-', label="Béton") 

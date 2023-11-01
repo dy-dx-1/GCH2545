@@ -48,6 +48,6 @@ def mdf(prm):
     matrice_diff[n-1, n-3] = 1 
 
     vect_residu[n-1, 0] = 2*h*dr*Te / k 
-    # Maintenant résolvons le sys matricielle pour trouver nos [T0, T1, T2, ..., Tn] 
+    # Maintenant résolvons le sys matriciel pour trouver nos [T0, T1, T2, ..., Tn] 
     temperatures = np.linalg.solve(matrice_diff, vect_residu)
     return pos_r, temperatures
