@@ -31,20 +31,23 @@ def mdf(prm):
     residu[0,0] = T_w 
     # Promenons nous parmi les index des noeuds pour remplir la matrice de coefficients 
     for i in range(1, n-1): 
-        Tprev = None 
-        Ti = None 
-        Tnext = None 
+        Tprev = k/(dl**2) 
+        Ti = ((-2*k/(dl**2)) - (4*h/D)) 
+        Tnext = k/(dl**2) 
         matrice[i, i+1] = Tnext 
         matrice[i, i] = Ti 
         matrice[i, i-1] = Tprev 
+        # Pour cette équation différentielle, le résidu des coefficients intermédiaires n'est pas nul 
+        residu[i, 0] = -4*h*T_a/D
     # Maintenant rajoutons la condition de Neumann 
-    matrice[n-1, n-1] = None    # on indexe comme si notre i est n-1 pour cette condition 
-    matrice[n-1, n-2] = None
-    matrice[n-1, n-3] = None 
-
-    residu[n-1, 0] = None 
-
-    return # à compléter
+    matrice[n-1, n-1] = 3    # on indexe comme si notre i est n-1 pour cette condition (c'est le dernier élément de notre mat nxn avec l'indexation python)
+    matrice[n-1, n-2] = -4
+    matrice[n-1, n-3] = 1 
+    residu[n-1, 0] = 0 # flux nul car paroi isolée  
+    # Finalement résolvons le système 
+    gradient = np.linalg.solve(matrice, residu) 
+    # Attention, le gradient est retourné sous la forme nx1 donc on doit le transposer & prendre la première ligne pour que les tests passent 
+    return gradient.T[0], positions
 
 def inte(T,z,prm):
     """Fonction qui intègre la convection sur la surface de l'ailette.
