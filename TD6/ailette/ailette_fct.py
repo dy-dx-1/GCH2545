@@ -66,9 +66,9 @@ def inte(T,z,prm):
     Sortie:
         - Valeur numérique de l'intégrale résultante (perte en W)
     """
-
-
-    # Fonction à écrire
-    I=0
-
-    return I# à compléter
+    # unpack des params 
+    k, Ta, Tw, h, n, D = prm.k, prm.T_a, prm.T_w, prm.h, prm.N, prm.D
+    dl = z[1]-z[0] # assume pas constant pcq on divise la tige en noeuds 
+    f = lambda temp: h*np.pi*D*(temp-Ta)
+    # on fait n car on itère sur le nb de sous intervalles et range s'arrète à n-1 & débute à 1 donc all good
+    return sum(0.5*dl*(f(T[i]) + f(T[i-1])) for i in range(1, n))   # generateur pcq on s'intèresse juste à la somme 
