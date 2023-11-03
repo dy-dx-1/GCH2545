@@ -36,6 +36,25 @@ grad, pos = mdf(prm)
 m = np.sqrt((4*prm.h)/(prm.k*prm.D))
 grad_theorique = ( (prm.T_w - prm.T_a) * (np.cosh(m*(prm.L-pos)) / np.cosh(m*prm.L)) ) + prm.T_a 
 
+## Trouver nb minimum de noeuds pr une erreur raisonnable sur la dissipation (chaleur)
+prm.N = 1000 # faisons le avec 1000 pts pour la reférence  
+T_ref, z_ref = mdf(prm) 
+q_ref = inte(T_ref, z_ref, prm)  
+print(f"Dissipation ref avec 1000 noeuds : {q_ref}")
+# Maintenant itérons sur le q obtenu avec différents noeuds afin de trouver celui qui se rapproche bien de q_ref 
+erreur = 1 
+i = 5 # je commence à 5 parce que j'imagine que ce sera plus que ça 
+while erreur>0.01: 
+    prm.N = i 
+    T_test, z_test = mdf(prm) 
+    q_test = inte(T_test, z_test, prm) 
+    erreur = abs(q_test-q_ref)/q_ref 
+    print(f"q avec {i} noeuds : {q_test} ; pour une err de {erreur*100:.1f} %")
+    i+=1 
+# dès qu'on sort c'est que le i précédent à apporté une erreur <1% 
+i-=1 # on reprend le i qui a mené à cette err 
+print("Nombre de noeuds minimum pour avoir une erreur de <1% : ", i) 
+
 # Graphique
 plt.plot(pos, grad, 'r.-', label="Différences finies") 
 plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
