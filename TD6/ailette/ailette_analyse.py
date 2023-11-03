@@ -55,6 +55,30 @@ while erreur>0.01:
 i-=1 # on reprend le i qui a mené à cette err 
 print("Nombre de noeuds minimum pour avoir une erreur de <1% : ", i) 
 
+## Dissipation de l'ailette en fonction du diamètre 
+prm.N = i # on set le nb de noeuds au minimum qu'on a trouvé à dernière question 
+L_possibles = [0.005, 0.0075, 0.01, 0.0125, 0.015] 
+couleurs_associes = ['r', 'b', 'k', 'g', 'm']
+variation_diam = np.linspace(0.001, 0.02)
+# itérons sur tt les L & D possibles & ajoutons les à un graphique 
+for i, length in enumerate(L_possibles): 
+    prm.L = length 
+    q_ref = list() 
+    for diam in variation_diam: 
+        prm.D = diam 
+        T_ref, z_ref = mdf(prm) 
+        q_ref.append(inte(T_ref, z_ref, prm)) # on ajoute la chaleur dissipée pour une certaine long et diam 
+    plt.plot(variation_diam, q_ref, f'{couleurs_associes[i]}-',label=f"Longueur: {length}") 
+# ajout de la droite à 10W 
+plt.plot(variation_diam, [10 for _ in range(len(variation_diam))], "y-")
+plt.grid(True) 
+plt.legend() 
+plt.title("Chaleur dissipée en fonction du diamètre pour différentes longueurs d'ailettes") 
+plt.xlabel("Diamètre (m)")
+plt.ylabel("Chaleur (W)") 
+plt.grid() 
+plt.show()     
+
 # Graphique
 plt.plot(pos, grad, 'r.-', label="Différences finies") 
 plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
