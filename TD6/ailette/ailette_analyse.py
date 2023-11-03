@@ -36,6 +36,16 @@ grad, pos = mdf(prm)
 m = np.sqrt((4*prm.h)/(prm.k*prm.D))
 grad_theorique = ( (prm.T_w - prm.T_a) * (np.cosh(m*(prm.L-pos)) / np.cosh(m*prm.L)) ) + prm.T_a 
 
+# Graphique de solution diff finies vs sol analytique 
+plt.plot(pos, grad, 'r.-', label="Différences finies") 
+plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
+plt.title("Profil de température d'une ailette")
+plt.xlabel("Distance de la base de l'ailette [m]")
+plt.ylabel("Température [C]")
+plt.legend()
+plt.grid() 
+plt.show()
+
 ## Trouver nb minimum de noeuds pr une erreur raisonnable sur la dissipation (chaleur)
 prm.N = 1000 # faisons le avec 1000 pts pour la reférence  
 T_ref, z_ref = mdf(prm) 
@@ -55,6 +65,7 @@ while erreur>0.01:
 i-=1 # on reprend le i qui a mené à cette err 
 print("Nombre de noeuds minimum pour avoir une erreur de <1% : ", i) 
 
+# Calcul de la dissipation pour chaque géométrie
 ## Dissipation de l'ailette en fonction du diamètre 
 prm.N = i # on set le nb de noeuds au minimum qu'on a trouvé à dernière question 
 L_possibles = [0.005, 0.0075, 0.01, 0.0125, 0.015] 
@@ -71,30 +82,12 @@ for i, length in enumerate(L_possibles):
     plt.plot(variation_diam, q_ref, f'{couleurs_associes[i]}-',label=f"Longueur: {length}") 
 # ajout de la droite à 10W 
 plt.plot(variation_diam, [10 for _ in range(len(variation_diam))], "y-")
-plt.grid(True) 
 plt.legend() 
 plt.title("Chaleur dissipée en fonction du diamètre pour différentes longueurs d'ailettes") 
-plt.xlabel("Diamètre (m)")
-plt.ylabel("Chaleur (W)") 
+plt.xlabel("Diamètre [m]")
+plt.ylabel("Chaleur [W]") 
 plt.grid() 
 plt.show()     
-
-# Graphique
-plt.plot(pos, grad, 'r.-', label="Différences finies") 
-plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
-plt.title("Profil de température d'une ailette")
-plt.xlabel("Distance de la base de l'ailette [m]")
-plt.ylabel("Température [C]")
-plt.legend()
-plt.grid() 
-plt.show()
-
-# Calcul de la dissipation pour chaque géométrie
-
-
-
-# Graphique
-
 
 # Correction
 pytest.main(['-q', '--tb=long', 'ailette_corr.py'])
