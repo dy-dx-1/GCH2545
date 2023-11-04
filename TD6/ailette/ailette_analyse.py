@@ -24,18 +24,17 @@ class parametres():
     T_a = 25     # [K] Température de l'air ambiant
     T_w = 125     # [K] Température de la paroi
     h = 150       # [W/m^2*K] Coefficient de convection
-    N = 5       # [-] Nombre de points en z
-
+    N = None       # [-] Nombre de points en z
 prm = parametres()
 
-# Appel des fonctions pour le calcul du profil de température
+### Appel des fonctions pour le calcul du profil de température
 # Différences finies 
+prm.N = 5 # valeur pr comparaison avec analytique
 grad, pos = mdf(prm) 
 # Analytique 
 # on utilisera le même nombre de pts pour la solution analytique donc on peut juste reprendre le domaine de mdf 
 m = np.sqrt((4*prm.h)/(prm.k*prm.D))
 grad_theorique = ( (prm.T_w - prm.T_a) * (np.cosh(m*(prm.L-pos)) / np.cosh(m*prm.L)) ) + prm.T_a 
-
 # Graphique de solution diff finies vs sol analytique 
 plt.plot(pos, grad, 'r.-', label="Différences finies") 
 plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
@@ -46,8 +45,8 @@ plt.legend()
 plt.grid() 
 plt.show()
 
-## Trouver nb minimum de noeuds pr une erreur raisonnable sur la dissipation (chaleur)
-prm.N = 1000 # faisons le avec 1000 pts pour la reférence  
+### Trouver nb minimum de noeuds pr une erreur raisonnable sur la dissipation (chaleur)
+prm.N = 1000 # On calcule la reférence avec 1000 pts 
 T_ref, z_ref = mdf(prm) 
 q_ref = inte(T_ref, z_ref, prm)  
 print(f"Dissipation ref avec 1000 noeuds : {q_ref}")
@@ -59,29 +58,28 @@ while erreur>0.01:
     T_test, z_test = mdf(prm) 
     q_test = inte(T_test, z_test, prm) 
     erreur = abs(q_test-q_ref)/q_ref 
-    print(f"q avec {i} noeuds : {q_test} ; pour une err de {erreur*100:.1f} %")
+    print(f"q avec {i} noeuds : {q_test} ; pour une err de {erreur*100:.2f} %")
     i+=1 
 # dès qu'on sort c'est que le i précédent à apporté une erreur <1% 
 i-=1 # on reprend le i qui a mené à cette err 
-print("Nombre de noeuds minimum pour avoir une erreur de <1% : ", i) 
+print("Donc le nombre de noeuds minimum pour avoir une erreur de <1% : ", i) 
 
-# Calcul de la dissipation pour chaque géométrie
-## Dissipation de l'ailette en fonction du diamètre 
+###Calcul de la dissipation pour chaque géométrie
+# Dissipation de l'ailette en fonction du diamètre 
 prm.N = i # on set le nb de noeuds au minimum qu'on a trouvé à dernière question 
 L_possibles = [0.005, 0.0075, 0.01, 0.0125, 0.015] 
-couleurs_associes = ['r', 'b', 'k', 'g', 'm']
+couleurs_associes = ['r', 'b', 'k', 'g', 'm']    # pour faire un beau graphique avec différentes couleurs 
 variation_diam = np.linspace(0.001, 0.02)
 # itérons sur tt les L & D possibles & ajoutons les à un graphique 
 for i, length in enumerate(L_possibles): 
     prm.L = length 
-    q_ref = list() 
+    q_ref = []
     for diam in variation_diam: 
         prm.D = diam 
         T_ref, z_ref = mdf(prm) 
         q_ref.append(inte(T_ref, z_ref, prm)) # on ajoute la chaleur dissipée pour une certaine long et diam 
-    plt.plot(variation_diam, q_ref, f'{couleurs_associes[i]}-',label=f"Longueur: {length}") 
-# ajout de la droite à 10W 
-plt.plot(variation_diam, [10 for _ in range(len(variation_diam))], "y-")
+    plt.plot(variation_diam, q_ref, f'{couleurs_associes[i]}-',label=f"L: {length} m") 
+plt.plot(variation_diam, [10 for _ in range(len(variation_diam))], color="darkorange", linestyle="-", linewidth="1.75", label="q = 10 W") # ajout de la droite à 10W 
 plt.legend() 
 plt.title("Chaleur dissipée en fonction du diamètre pour différentes longueurs d'ailettes") 
 plt.xlabel("Diamètre [m]")
