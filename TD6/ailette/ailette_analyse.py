@@ -29,15 +29,15 @@ prm = parametres()
 
 ### Appel des fonctions pour le calcul du profil de température
 # Différences finies 
-prm.N = 5 # valeur pr comparaison avec analytique
+prm.N = 7 # valeur pr comparaison avec analytique
 grad, pos = mdf(prm) 
 # Analytique 
-# on utilisera le même nombre de pts pour la solution analytique donc on peut juste reprendre le domaine de mdf 
+dom_theorique = np.linspace(0, prm.L) # on utilisera plus de pts pr la solution analytique 
 m = np.sqrt((4*prm.h)/(prm.k*prm.D))
-grad_theorique = ( (prm.T_w - prm.T_a) * (np.cosh(m*(prm.L-pos)) / np.cosh(m*prm.L)) ) + prm.T_a 
+grad_theorique = ( (prm.T_w - prm.T_a) * (np.cosh(m*(prm.L-dom_theorique)) / np.cosh(m*prm.L)) ) + prm.T_a 
 # Graphique de solution diff finies vs sol analytique 
-plt.plot(pos, grad, 'r.-', label="Différences finies") 
-plt.plot(pos, grad_theorique, 'g.-', label="Solution analytique") 
+plt.plot(pos, grad, 'r.-', label=f"Différences finies avec {prm.N} noeuds") 
+plt.plot(dom_theorique, grad_theorique, 'g-', label="Solution analytique") 
 plt.title("Profil de température d'une ailette")
 plt.xlabel("Distance de la base de l'ailette [m]")
 plt.ylabel("Température [C]")
