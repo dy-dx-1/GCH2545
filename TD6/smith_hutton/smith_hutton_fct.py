@@ -67,10 +67,6 @@ def mdf_assemblage(X,Y,nx,ny,Pe,alpha):
         - A : Matrice (array)
         - b : Vecteur (array)
     """
-    # Considèrer que par démarche manuelle j'ai trouvé que pour la numérotation du maillage demandée et en considérant que 
-    # les coords x vont de i=0 à i=nx-1 de gauche à droite et les coords y vont de j=0 à i=ny-1 de bas en haut 
-    # j'ai trouvé la relation suivante reliant k et les coords : 4i - j + 3 = k 
-
     # Discrétisation du domaine et création des coords equivalentes 1d 
     pos_x, pos_y = position(X, Y, nx, ny) 
     vit_x, vit_y = vitesse(pos_x, pos_y)
@@ -78,7 +74,6 @@ def mdf_assemblage(X,Y,nx,ny,Pe,alpha):
     dy = (Y[1] - Y[0])/(ny-1)
     N = nx*ny # nb de pts total 
     ca = 1 - np.tanh(alpha) # cond de dirichlet fixe 
-
 
     # Préparation de la matrice et du vecteur 
     mat = np.zeros((N, N)) 
