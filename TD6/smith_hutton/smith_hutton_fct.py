@@ -1,7 +1,6 @@
 # Importation des modules
 import numpy as np
 
-np.set_printoptions(linewidth=400) 
 def position(X,Y,nx,ny):
     """ Fonction générant deux matrices de discrétisation de l'espace
 
