@@ -24,10 +24,14 @@ def position(X,Y,nx,ny):
                     [0.5  0.5  0.5]
                     [0    0    0  ]
     """
+    # En gros on construit 2 matrices pr représenter les coords i,j de nos pts discrétisés 
+    # la matrice en x est les pos i et la matrice en y est les pos j 
+    x_min, x_max = X[0], X[1] 
+    y_min, y_max = Y[0], Y[1]
+    x = np.array([ np.linspace(x_min, x_max, nx) for ligne in range(ny) ]) # crée une liste [ [], [], [], ...]
+    y = np.array([ [j for i in range(nx)] for j in np.linspace(y_max, y_min, ny)])
 
-    # Fonction à écrire
-
-    return # à compléter
+    return x, y
 
 def vitesse(x,y):
     """ Fonction donnant les vitesses en x et y selon la position
