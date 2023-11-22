@@ -32,15 +32,15 @@ def convert_indices(nx:int, i = None, j = None, k = None)->int:
     else: 
         return None 
     
-def gen_central_values(k, nx, ny): 
+def gen_central_values(k, nx, ny, rk, dr, dtheta): 
     N = nx*ny 
     mat_ref = np.zeros((N, N)) # on crée un matrice NxN qu'on remplira des coefficients 
              # on sépare ceci de la matrice des noeuds de la fonction mdf pour faciliter nos tests, on devrait avoir une matrice dont toutes les valeurs des bords sont nulles 
-    Tk_nx = 0 
-    Tk_nx_ = 0 
-    Tk_1 = 0 
-    Tk_1_ = 0 
-    Tk = 0            
+    Tk_nx = 1 / (np.square(rk)*np.square(dtheta)) 
+    Tk_nx_ = Tk_nx
+    Tk_1 = (1/np.square(dr)) + (1/(2*rk*dr))
+    Tk_1_ = (1/np.square(dr)) - (1/(2*rk*dr)) 
+    Tk = (-2/np.square(dr)) + (-2/(np.square(rk)*np.square(dtheta)))           
     # Calculons la position i de reférence par rapport à k 
     i = k%nx  
     # Retrouvons avec k et i la position j du noeud 
@@ -52,6 +52,7 @@ def gen_central_values(k, nx, ny):
     mat_ref[j+1, i] = Tk_nx 
     mat_ref[j-1, i] = Tk_nx_
     # Le résidu est nul pour ces noeuds donc on n'a pas besoin de le modifier  
+    return mat_ref
 
 def mdf(r_min, r_max, theta_min, theta_max, nx, ny): 
     """
