@@ -15,7 +15,7 @@ def gen_maille(r_min, r_max, theta_min, theta_max, nx, ny):
     """
     return np.vstack([ [(r, theta) for r in np.linspace(r_min, r_max, nx)] for theta in np.linspace(theta_max, theta_min, ny) ])
 
-def convert_indices(ny:int, i = None, j = None, k = None)->int: 
+def convert_indices(nx:int, i = None, j = None, k = None)->int: 
     """
     Prend 2 indices et retourne celui qui n'est pas spécifié selon un maillage de forme 
 
@@ -24,11 +24,11 @@ def convert_indices(ny:int, i = None, j = None, k = None)->int:
     """
     # on assume que le programmeur sait utiliser la fonction donc pas de check complet des paramètres passés
     if i is None: 
-        return k - (ny*j) 
+        return int(k - (nx*j)) 
     elif j is None: 
-        return (k-i) / ny 
+        return int((k-i) / nx) 
     elif k is None: 
-        return i + (j*ny)
+        return int(i + (j*nx)) 
     else: 
         return None 
     
@@ -36,21 +36,21 @@ def gen_central_values(k, nx, ny):
     N = nx*ny 
     mat_ref = np.zeros((N, N)) # on crée un matrice NxN qu'on remplira des coefficients 
              # on sépare ceci de la matrice des noeuds de la fonction mdf pour faciliter nos tests, on devrait avoir une matrice dont toutes les valeurs des bords sont nulles 
-    Tk_ny = 0 
-    Tk_ny_ = 0 
+    Tk_nx = 0 
+    Tk_nx_ = 0 
     Tk_1 = 0 
     Tk_1_ = 0 
     Tk = 0            
     # Calculons la position i de reférence par rapport à k 
-    i = k%nx  # TODO check 
+    i = k%nx  
     # Retrouvons avec k et i la position j du noeud 
     j = convert_indices(ny, i=i, j=None, k=k)
     # Plaçons les coefficients dans la matrice 
     mat_ref[j, i] = Tk 
     mat_ref[j, i+1] = Tk_1 
     mat_ref[j, i-1] = Tk_1_
-    mat_ref[j+1, i] = Tk_ny 
-    mat_ref[j-1, i] = Tk_ny_
+    mat_ref[j+1, i] = Tk_nx 
+    mat_ref[j-1, i] = Tk_nx_
     # Le résidu est nul pour ces noeuds donc on n'a pas besoin de le modifier  
 
 def mdf(r_min, r_max, theta_min, theta_max, nx, ny): 
