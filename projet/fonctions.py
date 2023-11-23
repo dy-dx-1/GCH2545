@@ -1,4 +1,6 @@
 import numpy as np 
+import pytest
+
 np.set_printoptions(precision=2, linewidth=150) # permet d'imprimer les arrays de manière plus compacte pr les inspecter 
 
 def psi_exact(r, theta, params): 
@@ -84,3 +86,10 @@ def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params):
             noeuds += gen_central_values(k, nx, ny, rk, dr, dtheta)
     solutions = np.solve(noeuds, res) 
     return noeuds, res, solutions  
+
+
+if __name__ == "__main__": 
+    """ 
+    permet de lancer le fichier fonctions.py pour faire les tests 
+    """
+    pytest.main(['tests.py']) 
