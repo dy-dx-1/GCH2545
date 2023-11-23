@@ -87,6 +87,45 @@ def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params):
     solutions = np.solve(noeuds, res) 
     return noeuds, res, solutions  
 
+def derive(psi, dt): 
+    """Fonction qui calcule la dérivée partielle première par rapport à une variable
+    
+    Entrées:
+      - psi : positions, sera un vecteur (array), de longueur quelconque
+      - dt : pas de derivation [float]
+    
+    Sortie:
+      - Vecteur (array) contenant les valeurs numériques de la dérivée première
+    """
+  
+    # Étant donné qu'une approximation d'ordre 2 est imposée ET qu'on demande de prioriser l'utilisation de 2 points, 
+    # il faudra utiliser la méthode pas arrière ordre 2, pas avant ordre 2 et la méthode centrée afin de bien évaluer la dérivée 
+    # au départ de l'intervalle (3pts, pas avant), à la fin de celui-ci (3pts, pas arrière) et entre les 2 (2pts, centrée)
+    # dans notre cas le delta est constant donc on n'a pas à toucher au domaine! On ne jouera que sur les indices 
+    dpsi_dt = []
+    for i in range(len(h)): 
+      if i==0: # si première itération utiliser pas avant 
+          v = (-psi[i+2] + (4*psi[i+1]) - (3*psi[i]))/(2*dt)
+      elif i==len(psi)-1: # si dernière itération utiliser pas arrière 
+          v = ((3*psi[i]) - (4*psi[i-1]) + (psi[i-2]))/(2*dt)
+      else: # on est au milieu donc entourés de pts, utiliser approche centrée 
+          v = (psi[i+1]-psi[i-1])/(2*dt) 
+      dpsi_dt.append(v) 
+    return dpsi_dt
+
+def vitesses(r, theta, dr, dtheta): 
+    """Fonction qui calcule les vitesses selon r et theta 
+    
+    Entrées: 
+    r: Vecteur de positions radiales
+    theta: Vecteur de positions angulaires 
+    
+    Sortie:
+    Vecteur de vitesses radiale et angulaires
+    """
+    vr = (1/r)*derive(theta, dtheta)
+    vtheta = -derive(r, dr)
+    return vr, vtheta
 
 if __name__ == "__main__": 
     """ 
