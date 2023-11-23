@@ -76,7 +76,7 @@ def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params):
             i = nx-1 # on est à droite 
             j = convert_indices(nx, i=i, j=None, k=k) 
             theta_k = domaine_theta[j, i]
-            res[k, 1] = params.u_inf*params.R_ext*np.sin(theta_k)*(1-np.square(params.R/params.R_ext))
+            res[k, 0] = params.u_inf*params.R_ext*np.sin(theta_k)*(1-np.square(params.R/params.R_ext))
         else: # Alors on est à un noeud qui n'est pas sur le bord 
             # Trouvons le r associé à k 
             i = k%nx 
@@ -84,7 +84,7 @@ def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params):
             rk = domaine_r[j, i]
             # Évaluons les coefficients des différents noeuds de T, soit Tk+ny, Tk-ny, Tk+1, Tk-1 
             noeuds += gen_central_values(k, nx, ny, rk, dr, dtheta)
-    solutions = np.solve(noeuds, res) 
+    solutions = np.linalg.solve(noeuds, res) 
     return noeuds, res, solutions  
 
 def derive(psi, dt): 
@@ -103,7 +103,7 @@ def derive(psi, dt):
     # au départ de l'intervalle (3pts, pas avant), à la fin de celui-ci (3pts, pas arrière) et entre les 2 (2pts, centrée)
     # dans notre cas le delta est constant donc on n'a pas à toucher au domaine! On ne jouera que sur les indices 
     dpsi_dt = []
-    for i in range(len(h)): 
+    for i in range(len(psi)): 
       if i==0: # si première itération utiliser pas avant 
           v = (-psi[i+2] + (4*psi[i+1]) - (3*psi[i]))/(2*dt)
       elif i==len(psi)-1: # si dernière itération utiliser pas arrière 
