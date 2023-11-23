@@ -29,3 +29,21 @@ class Test:
         assert abs(p3[2]-f.convert_indices(nx=4, i=p3[0], j=p3[1], k=None))<1e-6
         # test d'erreur 
         assert (f.convert_indices(nx=4, i=1, j=2, k=3) is None)
+
+    def test_central_shape(self): 
+        maille_test1 = f.gen_central_values(k=9, nx=4, ny=4, rk=1, dr=1, dtheta=1)
+        maille_test2 = f.gen_central_values(k=14, nx=4, ny=6, rk=1, dr=1, dtheta=1)
+        maille_test3 = f.gen_central_values(k=8, nx=6, ny=3, rk=1, dr=1, dtheta=1) 
+        # Verif que toutes les colonnes des bords sont nulles 
+        assert all([ (maille_test1[0] == 0).all(),
+                     (maille_test1[-1]== 0).all(),
+                     (maille_test1[:,0]==0).all(),
+                     (maille_test1[:,1]==0).all() ]) 
+        assert all([ (maille_test2[0] == 0).all(),
+                     (maille_test2[-1]== 0).all(),
+                     (maille_test2[:,0]==0).all(),
+                     (maille_test2[:,1]==0).all() ]) 
+        assert all([ (maille_test3[0] == 0).all(),
+                     (maille_test3[-1]== 0).all(),
+                     (maille_test3[:,0]==0).all(),
+                     (maille_test3[:,1]==0).all() ]) 
