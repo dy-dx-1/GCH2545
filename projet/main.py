@@ -1,9 +1,13 @@
 import fonctions as f 
+import numpy as np 
 
 class Parametres():
     u_inf = 1 
     R = 1 
     R_ext = 5 
+    
+    theta_min = 0 
+    theta_max = 2 * np.pi 
 
 def main():
     # tests, ceci peut etre effacé 

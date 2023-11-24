@@ -50,10 +50,11 @@ def gen_central_values(k, nx, ny, rk, dr, dtheta):
     # Le résidu est nul pour ces noeuds donc on n'a pas besoin de le modifier  
     return mat_ref
 
-def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params): 
+def mdf(nx, ny, params): 
     """
     Applique la méthode des différences finies pour résoudre le système sur le domaine 2D 
     """
+    r_min, r_max, theta_min, theta_max = params.R, params.R_ext, params.theta_min, params.theta_max
     domaine_r, domaine_theta = gen_maille(r_min, r_max, theta_min, theta_max, nx, ny)
     dr = abs(r_max-r_min)/(nx-1)
     dtheta = abs(theta_max-theta_min)/(ny-1)
@@ -76,7 +77,7 @@ def mdf(r_min, r_max, theta_min, theta_max, nx, ny, params):
             i = nx-1 # on est à droite 
             j = convert_indices(nx, i=i, j=None, k=k) 
             theta_k = domaine_theta[j, i]
-            res[k, 0] = params.u_inf*params.R_ext*np.sin(theta_k)*(1-np.square(params.R/params.R_ext))
+            res[k, 0] = params.u_inf*r_max*np.sin(theta_k)*(1-np.square(r_min/r_max))
         else: # Alors on est à un noeud qui n'est pas sur le bord 
             # Trouvons le r associé à k 
             i = k%nx 
