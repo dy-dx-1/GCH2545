@@ -114,6 +114,16 @@ def derive(psi, dt):
       dpsi_dt.append(v) 
     return dpsi_dt
 
+def integrale(theta, dtheta): 
+    """ Fonction qui calcule une integrale avec la méthode des trapèzes 
+    
+
+    Entrées: 
+    
+    Sorties: 
+    * Valeurs de l'intégrale """
+    pass 
+
 def vitesses(r, theta, dr, dtheta): 
     """Fonction qui calcule les vitesses selon r et theta 
     
@@ -127,6 +137,10 @@ def vitesses(r, theta, dr, dtheta):
     vr = (1/r)*derive(theta, dtheta)
     vtheta = -derive(r, dr)
     return vr, vtheta
+
+def cp(vitesse, params): 
+    #TODO wait need to convert vitesse to only be along r = R axis ??? chuis confus par rapport au format 
+    return 1-np.square(vitesse/params.u_inf)
 
 if __name__ == "__main__": 
     """ 
