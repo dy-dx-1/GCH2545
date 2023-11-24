@@ -114,7 +114,7 @@ def derive(psi, dt):
       dpsi_dt.append(v) 
     return dpsi_dt
 
-def integrale(theta, dtheta): 
+def integrale(dx, x, y): 
     """ Fonction qui calcule une integrale avec la méthode des trapèzes 
     
 
@@ -122,7 +122,8 @@ def integrale(theta, dtheta):
     
     Sorties: 
     * Valeurs de l'intégrale """
-    pass 
+    N = abs(x[-1]-x[0])/dx # nb de pts de l'iteration 
+    return 0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N))
 
 def vitesses(r, theta, dr, dtheta): 
     """Fonction qui calcule les vitesses selon r et theta 
