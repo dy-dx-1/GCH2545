@@ -47,3 +47,17 @@ class Test:
                      (maille_test3[-1]== 0).all(),
                      (maille_test3[:,0]==0).all(),
                      (maille_test3[:,1]==0).all() ]) 
+        
+    def test_integral(self): 
+        """ 
+        Test de la fonction d'integration. On vérifie qu'elle est capable d'intégrer avec 2 fonctions 
+        dont la solution analytique est simple à obtenir. 
+        """
+        dom = np.linspace(-5, 5, 10000)  # domaine subdivisé en 50 pts donc 49 sous intervalles 
+        y1 = np.sin(dom) 
+        y2 = np.cos(dom)  
+
+        check1 = abs(f.integrale(dom, y1)-0)<1e-2
+        check2 = abs(f.integrale(dom, y2)-(2*np.sin(5)))<1e-2 
+        
+        assert all([check1, check2])
