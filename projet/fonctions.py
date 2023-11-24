@@ -123,7 +123,7 @@ def integrale(x, y):
     Sorties: 
     * Valeurs de l'intégrale """ 
     N = len(x)-1 
-    print(0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N)))
+    
     return 0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N))
 
 def vitesses(r, theta, dr, dtheta): 
