@@ -141,8 +141,26 @@ def vitesses(r, theta, dr, dtheta):
     return vr, vtheta
 
 def cp(vitesse, params): 
-    #TODO wait need to convert vitesse to only be along r = R axis ??? chuis confus par rapport au format 
+    """ 
+    V est un vecteur de vitesses à R variant selon theta donc on doit juste l'évaluer et retourne le résultat
+    """
     return 1-np.square(vitesse/params.u_inf)
+
+def cd(cp, N): 
+    """ 
+    woo 
+    """
+    domain = np.linspace(0, 2*np.pi, N)
+    integrande = cp*np.cos(domain) # fonction qu'on intègre pour avoir le cd 
+    return -0.5*integrale(domain, integrande) 
+
+def cl(cp, N): 
+    """ 
+    woo 
+    """
+    domain = np.linspace(0, 2*np.pi, N)
+    integrande = cp*np.sin(domain) # fonction qu'on intègre pour avoir le cl 
+    return -0.5*integrale(domain, integrande) 
 
 if __name__ == "__main__": 
     """ 
