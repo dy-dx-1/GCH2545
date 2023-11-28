@@ -36,17 +36,17 @@ class Test:
         maille_test3 = f.gen_central_values(k=8, nx=6, ny=3, rk=1, dr=1, dtheta=1) 
         # Verif que toutes les colonnes des bords sont nulles 
         assert all([ (maille_test1[0] == 0).all(),
-                     (maille_test1[-1]== 0).all(),
-                     (maille_test1[:,0]==0).all(),
-                     (maille_test1[:,1]==0).all() ]) 
+                     (maille_test1[-1] == 0).all(),
+                     (maille_test1[:,0] == 0).all(),
+                     (maille_test1[:,1] == 0).all() ]) 
         assert all([ (maille_test2[0] == 0).all(),
-                     (maille_test2[-1]== 0).all(),
-                     (maille_test2[:,0]==0).all(),
-                     (maille_test2[:,1]==0).all() ]) 
+                     (maille_test2[-1] == 0).all(),
+                     (maille_test2[:,0] == 0).all(),
+                     (maille_test2[:,1] == 0).all() ]) 
         assert all([ (maille_test3[0] == 0).all(),
-                     (maille_test3[-1]== 0).all(),
-                     (maille_test3[:,0]==0).all(),
-                     (maille_test3[:,1]==0).all() ]) 
+                     (maille_test3[-1] == 0).all(),
+                     (maille_test3[:,0] == 0).all(),
+                     (maille_test3[:,1] == 0).all() ]) 
         
     def test_integral(self): 
         """ 
