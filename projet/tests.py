@@ -61,3 +61,12 @@ class Test:
         check2 = abs(f.integrale(dom, y2)-(2*np.sin(5)))<1e-2 
         
         assert all([check1, check2])
+
+    def test_derivee(self): 
+        # TODO: not working 
+        x = np.array([0, 1, 2, 3, 4, 5]) 
+        y = x**3 # valeurs tests, la derivee analytique est 3x**2 
+        y_prime = 3*(x**2)
+        y_p_approx = f.derive(y, 0.01)
+        
+        assert all(abs(y_prime-y_p_approx)<1e-3) 
