@@ -50,10 +50,11 @@ def gen_central_values(k, nx, ny, rk, dr, dtheta):
     # Le résidu est nul pour ces noeuds donc on n'a pas besoin de le modifier  
     return mat_ref
 
-def mdf(nx, ny, params): 
+def mdf(params): 
     """
     Applique la méthode des différences finies pour résoudre le système sur le domaine 2D 
     """
+    nx, ny = params.nx, params.ny
     r_min, r_max, theta_min, theta_max = params.R, params.R_ext, params.theta_min, params.theta_max
     domaine_r, domaine_theta = gen_maille(r_min, r_max, theta_min, theta_max, nx, ny)
     dr = abs(r_max-r_min)/(nx-1)
@@ -88,32 +89,6 @@ def mdf(nx, ny, params):
     solutions = np.linalg.solve(noeuds, res) 
     return noeuds, res, solutions  
 
-def derive(psi, dt): 
-    """Fonction qui calcule la dérivée partielle première par rapport à une variable
-    
-    Entrées:
-      - psi : positions, sera un vecteur (array), de longueur quelconque
-      - dt : pas de derivation [float]
-    
-    Sortie:
-      - Vecteur (array) contenant les valeurs numériques de la dérivée première
-    """
-  
-    # Étant donné qu'une approximation d'ordre 2 est imposée ET qu'on demande de prioriser l'utilisation de 2 points, 
-    # il faudra utiliser la méthode pas arrière ordre 2, pas avant ordre 2 et la méthode centrée afin de bien évaluer la dérivée 
-    # au départ de l'intervalle (3pts, pas avant), à la fin de celui-ci (3pts, pas arrière) et entre les 2 (2pts, centrée)
-    # dans notre cas le delta est constant donc on n'a pas à toucher au domaine! On ne jouera que sur les indices 
-    dpsi_dt = []
-    for i in range(len(psi)): 
-      if i==0: # si première itération utiliser pas avant 
-          v = (-psi[i+2] + (4*psi[i+1]) - (3*psi[i]))/(2*dt)
-      elif i==len(psi)-1: # si dernière itération utiliser pas arrière 
-          v = ((3*psi[i]) - (4*psi[i-1]) + (psi[i-2]))/(2*dt)
-      else: # on est au milieu donc entourés de pts, utiliser approche centrée 
-          v = (psi[i+1]-psi[i-1])/(2*dt) 
-      dpsi_dt.append(v) 
-    return dpsi_dt
-
 def integrale(x, y): 
     """ Fonction qui calcule une integrale avec la méthode des trapèzes pour des séries de valeurs discrètes
     
@@ -130,11 +105,10 @@ def vitesses(psi, params:object):
     """Fonction qui calcule les vitesses selon r et theta 
     
     Entrées: 
-    r: Vecteur de positions radiales
-    theta: Vecteur de positions angulaires 
+
     
     Sortie:
-    Vecteur de vitesses radiale et angulaires
+
     """
     nx = params.nx
     ny = params.ny 
@@ -144,7 +118,7 @@ def vitesses(psi, params:object):
     dtheta = abs(params.theta_max-params.theta_min)/(ny-1)
 
     vr = (1/r)*deriv_by_coeff(psi, 'theta', nx, dtheta)
-    vtheta = -derive(psi, 'r', nx, dr)
+    vtheta = -deriv_by_coeff(psi, 'r', nx, dr)
     return vr, vtheta
 
 def cp(vitesse, params): 
