@@ -126,27 +126,13 @@ def integrale(x, y):
     
     return 0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N))
 
-def vitesses(r, theta, dr, dtheta): 
-    """Fonction qui calcule les vitesses selon r et theta 
-    
-    Entrées: 
-    r: Vecteur de positions radiales
-    theta: Vecteur de positions angulaires 
-    
-    Sortie:
-    Vecteur de vitesses radiale et angulaires
-    """
-    vr = (1/r)*derive(theta, dtheta)
-    vtheta = -derive(r, dr)
-    return vr, vtheta
-
 def cp(vitesse, params): 
     """ 
     V est un vecteur de vitesses à R variant selon theta donc on doit juste l'évaluer et retourne le résultat
     """
     return 1-np.square(vitesse/params.u_inf)
 
-def deriv_by_coeff(psis:np.array, coeff:str, nx:int, delta:float): 
+def vitesse(psis:np.array, coeff:str, nx:int, delta:float): 
     """ 
     Iterates through all psis & differentiates using the specified coeff as a delta 
     """
