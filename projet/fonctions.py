@@ -86,7 +86,7 @@ def mdf(params):
             rk = domaine_r[j, i]
             # Évaluons les coefficients des différents noeuds de T, soit Tk+ny, Tk-ny, Tk+1, Tk-1 
             noeuds += gen_central_values(k, nx, ny, rk, dr, dtheta)
-    solutions = np.linalg.solve(noeuds, res) 
+    solutions = np.linalg.solve(noeuds, res)[:,0]
     return noeuds, res, solutions  
 
 def integrale(x, y): 
@@ -116,8 +116,10 @@ def vitesses(psi, params:object):
 
     dr = abs(params.R_ext-params.R)/(nx-1)
     dtheta = abs(params.theta_max-params.theta_min)/(ny-1)
-
-    vr = (1/r)*deriv_by_coeff(psi, 'theta', nx, dtheta)
+    # Note: r est un vecteur 1d de longueur nx alors que le vect des derivees est 1d longueur N (parce que c'est des solutions aux nx*ny noeuds) 
+    # on doit donc creer r_ qui represente les valeurs de r à chaque noeud dans l'ordre du vect des derivées pour pouvoir les multiplier 
+    r_ = np.array(sum([list(r) for _ in range(ny)], [])) 
+    vr = (1/r_)*deriv_by_coeff(psi, 'theta', nx, dtheta)
     vtheta = -deriv_by_coeff(psi, 'r', nx, dr)
     return vr, vtheta
 
@@ -132,7 +134,7 @@ def deriv_by_coeff(psis:np.array, coeff:str, nx:int, delta:float):
     Iterates through all psis & differentiates using the specified coeff as a delta 
     """
     coeff = coeff.strip().lower() 
-    N = len(psi)
+    N = len(psis)
     if not any([coeff=="r", coeff=="theta"]): return None # check rapide que la fonction est bien utilisée 
     psi_prime = list() # Liste qui contiendra les psi dérivés en ordre 
     for k, psi in enumerate(psis): 
