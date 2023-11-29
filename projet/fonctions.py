@@ -146,12 +146,36 @@ def cp(vitesse, params):
     """
     return 1-np.square(vitesse/params.u_inf)
 
-def deriv_by_coeff(psi, coeff): 
+def deriv_by_coeff(psis:np.array, coeff:str, nx:int, delta:float): 
     """ 
-    Iterates through all coeffs & differentiates using it as a delta 
+    Iterates through all psis & differentiates using the specified coeff as a delta 
     """
-    for k in range(len(psi)): 
-        pass 
+    coeff = coeff.strip().lower() 
+    N = len(psi)
+    if not any([coeff=="r", coeff=="theta"]): return None # check rapide que la fonction est bien utilisée 
+    psi_prime = list() # Liste qui contiendra les psi dérivés en ordre 
+    for k, psi in enumerate(psis): 
+        # Il faut savoir si on est sur l'axe des r ou de theta pour appliquer les bonnes conditions 
+        # on appliquera ensuite les mêmes structures de contrôle que dans la mdf pour savoir si on est sur le perimetre et donc quelle derivee appliquer
+        if coeff == "r": 
+            # alors derivée 'horizontale' sur notre maillage, on a juste a vérifier si on est a gauche ou a droite 
+            if k%nx==0: # gauche, derivee gear avant ordre 2 
+                psi_p = -psis[k+2] + (4*psis[k+1]) - (3*psi)
+            elif (k+1)%nx==0: # droite, derivee gear arriere ordre 2 
+                psi_p = (3*psi) - (4*psis[k-1]) + psis[k-2]
+            else: # milieu, derivee centree ordre 2 
+                psi_p = psis[k+1]-psis[k-1]
+        else: # notre verification initiale nous permet d'assurer que si ce n'Est pas r, c'est theta qu'on veut 
+            # alors derivee 'verticale' sur le maillage, on a besoin de verifier si on est en haut ou bas 
+            if k<=(nx-1): # haut, derivee gear avant ordre 2 
+                psi_p = -psis[k+nx+nx] + (4*psis[k+nx]) - (3*psi)
+            elif k>=(N-nx) and k<=(N-1): # bas, derivee gear arriere ordre 2
+                psi_p = (3*psi) - (4*psis[k-nx]) + psis[k-nx-nx]
+            else: # centre, derivee centree ordre 2 
+                psi_p = psis[k+nx]-psis[k-nx]
+        psi_prime.append(psi_p/(2*delta))
+    return np.array(psi_prime)
+
 def cd(cp, N): 
     """ 
     woo 
