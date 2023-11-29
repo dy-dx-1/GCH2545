@@ -126,7 +126,7 @@ def integrale(x, y):
     
     return 0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N))
 
-def vitesses(r, theta, dr, dtheta): 
+def vitesses(psi, params:object): 
     """Fonction qui calcule les vitesses selon r et theta 
     
     Entrées: 
@@ -136,8 +136,15 @@ def vitesses(r, theta, dr, dtheta):
     Sortie:
     Vecteur de vitesses radiale et angulaires
     """
-    vr = (1/r)*derive(theta, dtheta)
-    vtheta = -derive(r, dr)
+    nx = params.nx
+    ny = params.ny 
+    r = np.linspace(params.R, params.R_ext, nx) 
+
+    dr = abs(params.R_ext-params.R)/(nx-1)
+    dtheta = abs(params.theta_max-params.theta_min)/(ny-1)
+
+    vr = (1/r)*deriv_by_coeff(psi, 'theta', nx, dtheta)
+    vtheta = -derive(psi, 'r', nx, dr)
     return vr, vtheta
 
 def cp(vitesse, params): 
