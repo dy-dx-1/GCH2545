@@ -146,6 +146,12 @@ def cp(vitesse, params):
     """
     return 1-np.square(vitesse/params.u_inf)
 
+def deriv_by_coeff(psi, coeff): 
+    """ 
+    Iterates through all coeffs & differentiates using it as a delta 
+    """
+    for k in range(len(psi)): 
+        pass 
 def cd(cp, N): 
     """ 
     woo 
