@@ -10,8 +10,8 @@ class Parametres():
     theta_min = 0 
     theta_max = 2 * np.pi 
 
-    nx = 5
-    ny = 5
+    nx = 15
+    ny = 15
 
 def main():
     # tests, ceci peut etre effacé 
@@ -21,7 +21,11 @@ def main():
     R, THETA = f.gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny) 
     vr_mesh = f.arrange_mesh(vr, prm.nx, prm.ny) 
     vtheta_mesh = f.arrange_mesh(vtheta, prm.nx, prm.ny) 
-    plt.quiver(R, THETA, vr_mesh, vtheta_mesh)
+    X, Y = f.gen_maille(-prm.R_ext, prm.R_ext, -prm.R_ext, prm.R_ext, prm.nx, prm.nx) 
+    vx, vy = f.convert_coords(vr, vtheta, prm) 
+    vx_mesh, vy_mesh = f.arrange_mesh(vx, prm.nx, prm.ny), f.arrange_mesh(vy, prm.nx, prm.ny)
+
+    plt.quiver(X, Y, vx_mesh, vy_mesh)
     plt.show() 
     
 if __name__=="__main__": 

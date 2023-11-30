@@ -182,6 +182,20 @@ def cl(cp, N):
     integrande = cp*np.sin(domain) # fonction qu'on intègre pour avoir le cl 
     return -0.5*integrale(domain, integrande) 
 
+def convert_coords(vr, vtheta, prm):
+    # prend des vecteurs 1d correspondant aux noeuds k et les transpose sur des axes cartesiens 
+    # on ne fait qu'appliquer une matrice de rotation sur les couples vr et vtheta 
+    N = prm.nx*prm.ny 
+    R, T = gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny)
+    vx, vy = list(), list() 
+    for k in range(N): 
+        i = k%prm.nx # il faut qu'on retrouve les coords i, j dans la maille pour retrouver theta 
+        theta = T[convert_indices(prm.nx, i=i, j=None, k=k),i] 
+        vitesse_cartesienne = np.matmul([[np.cos(theta),np.sin(theta)],[np.sin(theta),np.cos(theta)]], [[vr[k]],[vtheta[k]]])
+        vx.append(vitesse_cartesienne[0,0])
+        vy.append(vitesse_cartesienne[1,0])
+    return np.array(vx), np.array(vy) 
+
 if __name__ == "__main__": 
     """ 
     permet de lancer le fichier fonctions.py pour faire les tests 
