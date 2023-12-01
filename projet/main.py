@@ -25,7 +25,12 @@ def main():
     vx, vy = f.convert_coords(vr, vtheta, prm) 
     vx_mesh, vy_mesh = f.arrange_mesh(vx, prm.nx, prm.ny), f.arrange_mesh(vy, prm.nx, prm.ny)
 
-    plt.quiver(X, Y, vx_mesh, vy_mesh)
+    # plotting 
+    fig, ax = plt.subplots() 
+    ax.quiver(X, Y, vx_mesh, vy_mesh)
+    # ajout d'un cercle pour representer le cylindre 
+    cyl = plt.Circle((0,0), prm.R, color="r", fill=False)
+    ax.add_patch(cyl) 
     plt.show() 
     
 if __name__=="__main__": 
