@@ -160,7 +160,7 @@ def deriv_by_coeff(psis:np.array, coeff:str, nx:int, delta:float):
     return np.array(psi_prime)
 
 def arrange_mesh(vector, nx, ny): 
-    # prend un vecteur 1d correspondant à des valeurs des noeuds K et les retourne en format 2D selon la maille nx*ny 
+    # prend un vecteur 1d correspondant à des valeurs associées à des noeuds K et les retourne en format 2D selon la maille nx*ny 
     maille = []
     for k in range(0, nx*ny, nx): 
         maille.append(vector[k:k+nx])
