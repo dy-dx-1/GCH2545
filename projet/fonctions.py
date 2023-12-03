@@ -4,8 +4,28 @@ import pytest
 np.set_printoptions(precision=2, linewidth=150) # permet d'imprimer les arrays de manière plus compacte pr les inspecter 
 
 def psi_exact(r, theta, params): 
-    return params.u_inf * r * np.sin(theta*(1-( (params.R**2)/(params.r**2) )))
+    return params.u_inf * r * np.sin(theta)*(1-np.square(params.R/r))
 
+def psi_ref_mesh(prm:object):
+    """ 
+    Retourne une maille correspondant aux sols exactes de psi sur notre domaine discretisé 
+    """
+    r, theta = gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny) # sert à retourver coords dans notre maillage 
+    ref_mesh = list() 
+    for index_vertical, ligne_r in enumerate(r):
+        # chaque iter donne une ligne 1d [ ... ] des valeurs de R de bas en haut (donc constant) 
+        # ainsi que un index vertical qui sert à retrouver theta 
+        ligne_psi = list() 
+        for index_horizonal, r in enumerate(ligne_r): 
+            if index_horizonal==0:continue 
+            print(r, theta[index_vertical, index_horizonal], psi_exact(r, theta[index_vertical, index_horizonal], prm), sep="\n")
+            quit()
+            # chaque iter donne une valeur de r dans la ligne 1d ainsi que son index horizontal pour retrouver theta 
+            ligne_psi.append(psi_exact(r, theta[index_vertical, index_horizonal], prm))   
+        ref_mesh.append(ligne_psi) 
+    return ref_mesh
+
+    
 def gen_maille(r_min, r_max, theta_min, theta_max, nx, ny): 
     """ 
     Genère les coordonnées r et theta de chacun des points du maillage 
