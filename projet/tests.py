@@ -62,6 +62,33 @@ class Test:
         
         assert all([check1, check2])
 
+    def test_deriv_by_coeff(self): 
+        """
+        Test de la fonction derivant les valeurs d'un maillage par rapport à une direction donnée 
+        """
+        # Un test simple pour vérifier un aspect de la fonction serait de dériver des coeff constants dans la direction de dérivation 
+        #a_ref =  [[1,1,1],
+        #          [2,2,2],
+        #          [3,3,3]]   # exemple des valeurs de noeuds constantes sur la direction r 
+        #b_ref =  [[1,2,3],
+        #          [1,2,3],
+        #          [1,2,3]]   # exemple des valeurs de noeuds constantes sur la direction theta
+        a_ref = [1,1,1, 2,2,2, 3,3,3]
+        b_ref = [1,2,3, 1,2,3, 1,2,3]
+        a = f.deriv_by_coeff(a_ref, 'r', nx=3, delta = 0.1) # le delta n'est pas important 
+        b = f.deriv_by_coeff(b_ref, 'theta', nx=3, delta = 0.1) # le delta n'est pas important 
+        r_check = a==np.zeros(9)
+        assert r_check.all() 
+        theta_check = b==np.zeros(9) 
+        assert theta_check.all() 
+        # finalment verifions qu'on n'a pas zero dans l'autre direction 
+        c =  f.deriv_by_coeff(a_ref, 'theta', nx=3, delta = 0.1)
+        d = f.deriv_by_coeff(b_ref, 'r', nx=3, delta = 0.1)
+        r_check = c==np.zeros(9)
+        assert not r_check.all() 
+        theta_check = d==np.zeros(9) 
+        assert not theta_check.all() 
+
     def test_arrange_mesh(self): 
         """ 
         Test de la fonction explicitant un array 1D des valeurs associées à des noeuds 'k' en son maillage 2D de la forme: 
