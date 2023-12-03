@@ -63,7 +63,7 @@ def mdf(params):
     N = nx*ny 
     noeuds = np.zeros((N,N)) 
     # Vecteur résidu associé à la matrice des noeuds 
-    res = np.zeros((N,1))
+    res = np.zeros(N)
     # Itérons sur chacun des k afin de remplir la matrice des noeuds et du résidu 
     for k in range(N): 
         if k<=(nx-1): # Condition limite du haut ; Psik = 0 
@@ -78,15 +78,15 @@ def mdf(params):
             i = nx-1 # on est à droite 
             j = convert_indices(nx, i=i, j=None, k=k) 
             theta_k = domaine_theta[j, i]
-            res[k, 0] = params.u_inf*r_max*np.sin(theta_k)*(1-np.square(r_min/r_max))
+            res[k] = params.u_inf*r_max*np.sin(theta_k)*(1-np.square(r_min/r_max))
         else: # Alors on est à un noeud qui n'est pas sur le bord 
             # Trouvons le r associé à k 
             i = k%nx 
             j = convert_indices(nx, i=i, j=None, k=k)
             rk = domaine_r[j, i]
-            # Évaluons les coefficients des différents noeuds de T, soit Tk+ny, Tk-ny, Tk+1, Tk-1 
+            # Évaluons les coefficients des différents noeuds de T, soit Tk+nx, Tk-nx, Tk+1, Tk-1 
             noeuds += gen_central_values(k, nx, ny, rk, dr, dtheta)
-    solutions = np.linalg.solve(noeuds, res)[:,0]
+    solutions = np.linalg.solve(noeuds, res)
     return noeuds, res, solutions  
 
 def integrale(x, y): 
