@@ -125,3 +125,31 @@ class Test:
         c_test = f.arrange_mesh(valeurs_test, nx=3, ny=3)
         check = c==c_test
         assert check.all() 
+
+    def test_conditions_limites(self):
+        """Test vérifiant que les solutions répondent bien à nos conditions limites """
+        class Parametres():
+            u_inf = 1 
+            R = 1 
+            R_ext = 5 
+            
+            theta_min = 0 
+            theta_max = 2 * np.pi 
+
+            nx = 15
+            ny = 20
+        prm = Parametres()
+        noeuds, res, solutions = f.mdf(params=prm)
+        psi_mesh = f.arrange_mesh(solutions, prm.nx, prm.ny) 
+        print(psi_mesh)
+        discretisation_theta = np.linspace(prm.theta_max, prm.theta_min, prm.ny) # l'ordre est important pour match maillage 
+        ref_psi_droit = prm.u_inf*prm.R_ext*np.sin(discretisation_theta)*(1-np.square(prm.R/prm.R_ext))
+        # Maintenant qu'on a les valeurs de psi arrangés sur la maille de notre domaine il est simple de vérifier les conditions
+        check_gauche = psi_mesh[:,0] < 1e-10
+        check_bas = psi_mesh[prm.ny-1,:] < 1e-10 
+        check_haut = psi_mesh[0, :] < 1e-10 
+        check_droit = abs(psi_mesh[:,prm.nx-1] - ref_psi_droit)<1e-6
+        assert check_gauche.all() 
+        assert check_bas.all() 
+        assert check_haut.all() 
+        assert check_droit.all() 
