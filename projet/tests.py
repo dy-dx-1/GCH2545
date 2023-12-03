@@ -61,3 +61,40 @@ class Test:
         check2 = abs(f.integrale(dom, y2)-(2*np.sin(5)))<1e-2 
         
         assert all([check1, check2])
+
+    def test_arrange_mesh(self): 
+        """ 
+        Test de la fonction explicitant un array 1D des valeurs associées à des noeuds 'k' en son maillage 2D de la forme: 
+        k=0  k=1    k=2    ... k=nx-1 
+        k=nx k=nx+1 k=nx+2 ... k=2nx-1 
+        ...  ...    ...    ... ...
+        ...  ...    ...    ... k = N-1 
+        Où,
+        nx: nombre de valeurs horizontales,
+        ny: nombre de valeurs verticales, 
+        N=nx*ny: Nombre de noeuds au total 
+        """
+        # testons 3 cas, nx>ny, ny>nx et nx=ny 
+        # Premier cas, nx=5, ny=3 
+        a = [[0,   1,  2,  3,  4], 
+             [5,   6,  7,  8,  9], 
+             [10, 11, 12, 13, 14]]
+        a_test = f.arrange_mesh(np.arange(15), nx=5, ny=3)
+        check = a==a_test
+        assert check.all() 
+        # Deuxieme cas, nx=2, ny=4
+        b = [[0,   1], 
+             [2,   3], 
+             [4,   5],
+             [6,   7]]
+        b_test = f.arrange_mesh(np.arange(8), nx=2, ny=4)
+        check = b==b_test
+        assert check.all() 
+        # Troisieme cas, nx=3, ny=3 ET un vecteur de valeurs k qui != les indices des noeuds (on devrait avoir la bonne shape avec les valeurs placées)
+        c = [[3,   4,  5], 
+             [6,   0,  8], 
+             [9,  11,  20]]
+        valeurs_test = [3,4,5,6,0,8,9,11,20]
+        c_test = f.arrange_mesh(valeurs_test, nx=3, ny=3)
+        check = c==c_test
+        assert check.all() 
