@@ -6,6 +6,12 @@ np.set_printoptions(precision=2, linewidth=150) # permet d'imprimer les arrays d
 def psi_exact(r, theta, params): 
     return params.u_inf * r * np.sin(theta)*(1-np.square(params.R/r))
 
+def delpsi_delr_ref(r, theta, params): 
+    """ 
+    Derivee partielle de psi analytique, sert à vérifier calculs de vitesse  
+    """
+    pass 
+
 def psi_ref_mesh(prm:object):
     """ 
     Retourne une maille correspondant aux sols exactes de psi sur notre domaine discretisé 
@@ -17,15 +23,11 @@ def psi_ref_mesh(prm:object):
         # ainsi que un index vertical qui sert à retrouver theta 
         ligne_psi = list() 
         for index_horizonal, r in enumerate(ligne_r): 
-            if index_horizonal==0:continue 
-            print(r, theta[index_vertical, index_horizonal], psi_exact(r, theta[index_vertical, index_horizonal], prm), sep="\n")
-            quit()
             # chaque iter donne une valeur de r dans la ligne 1d ainsi que son index horizontal pour retrouver theta 
             ligne_psi.append(psi_exact(r, theta[index_vertical, index_horizonal], prm))   
         ref_mesh.append(ligne_psi) 
-    return ref_mesh
+    return np.array(ref_mesh) 
 
-    
 def gen_maille(r_min, r_max, theta_min, theta_max, nx, ny): 
     """ 
     Genère les coordonnées r et theta de chacun des points du maillage 
@@ -76,7 +78,7 @@ def mdf(params):
     """
     nx, ny = params.nx, params.ny
     r_min, r_max, theta_min, theta_max = params.R, params.R_ext, params.theta_min, params.theta_max
-    domaine_r, domaine_theta = gen_maille(r_min, r_max, theta_min, theta_max, nx, ny)
+    maille_r, maille_theta = gen_maille(r_min, r_max, theta_min, theta_max, nx, ny)
     dr = abs(r_max-r_min)/(nx-1)
     dtheta = abs(theta_max-theta_min)/(ny-1)
     # Matrice qui acceuillera les différentes solutions des noeuds 
@@ -97,17 +99,17 @@ def mdf(params):
             # calculons le résultat de la fonction qui ira dans le résidu 
             i = nx-1 # on est à droite 
             j = convert_indices(nx, i=i, j=None, k=k) 
-            theta_k = domaine_theta[j, i]
+            theta_k = maille_theta[j, i]
             res[k] = params.u_inf*r_max*np.sin(theta_k)*(1-np.square(r_min/r_max))
         else: # Alors on est à un noeud qui n'est pas sur le bord 
             # Trouvons le r associé à k 
             i = k%nx 
             j = convert_indices(nx, i=i, j=None, k=k)
-            rk = domaine_r[j, i]
+            rk = maille_r[j, i]
             # Évaluons les coefficients des différents noeuds de T, soit Tk+nx, Tk-nx, Tk+1, Tk-1 
             noeuds += gen_central_values(k, nx, ny, rk, dr, dtheta)
     solutions = np.linalg.solve(noeuds, res)
-    return noeuds, res, solutions  
+    return maille_r, maille_theta, solutions  
 
 def integrale(x, y): 
     """ Fonction qui calcule une integrale avec la méthode des trapèzes pour des séries de valeurs discrètes

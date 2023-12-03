@@ -153,3 +153,21 @@ class Test:
         assert check_bas.all() 
         assert check_haut.all() 
         assert check_droit.all() 
+
+    def test_resultats_mdf(self):
+        """Test vérifiant que la solutions repond a celle exacte"""
+        class Parametres():
+            u_inf = 1 
+            R = 1 
+            R_ext = 5 
+            
+            theta_min = 0 
+            theta_max = 2 * np.pi 
+
+            nx = 15
+            ny = 20
+        prm = Parametres()
+        r, theta, solutions = f.mdf(params=prm)
+        psi_mesh = f.arrange_mesh(solutions, prm.nx, prm.ny) 
+        psi_mesh_ref = f.psi_ref_mesh(prm) 
+        assert (abs(psi_mesh-psi_mesh_ref)<1e-2).all() 
