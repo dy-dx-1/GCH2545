@@ -8,9 +8,15 @@ def psi_exact(r, theta, params):
 
 def delpsi_delr_ref(r, theta, params): 
     """ 
-    Derivee partielle de psi analytique, sert à vérifier calculs de vitesse  
+    Derivee partielle de psi par rapport à r analytique, sert à vérifier calculs de vitesse  
     """
-    pass 
+    return params.u_inf*np.sin(theta)*(np.square(r)+np.square(params.R))/np.square(r)
+
+def delpsi_deltheta_ref(r, theta, params): 
+    """ 
+    Derivee partielle de psi par rapport à theta analytique, sert à vérifier calculs de vitesse  
+    """
+    return params.u_inf*(np.square(r)-np.square(params.R))*np.cos(theta)/r 
 
 def psi_ref_mesh(prm:object):
     """ 
@@ -25,6 +31,36 @@ def psi_ref_mesh(prm:object):
         for index_horizonal, r in enumerate(ligne_r): 
             # chaque iter donne une valeur de r dans la ligne 1d ainsi que son index horizontal pour retrouver theta 
             ligne_psi.append(psi_exact(r, theta[index_vertical, index_horizonal], prm))   
+        ref_mesh.append(ligne_psi) 
+    return np.array(ref_mesh) 
+
+def vr_ref_mesh(prm:object): 
+    """même logique que psi_ref_mesh, mais on calcule la vitesse radiale anayltique"""
+    r, theta = gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny) # sert à retourver coords dans notre maillage 
+    ref_mesh = list() 
+    for index_vertical, ligne_r in enumerate(r):
+        # chaque iter donne une ligne 1d [ ... ] des valeurs de R de bas en haut (donc constant) 
+        # ainsi que un index vertical qui sert à retrouver theta 
+        ligne_psi = list() 
+        for index_horizonal, r in enumerate(ligne_r): 
+            # chaque iter donne une valeur de r dans la ligne 1d ainsi que son index horizontal pour retrouver theta 
+            vr = (1/r)*delpsi_deltheta_ref(r, theta[index_vertical, index_horizonal], prm)
+            ligne_psi.append(vr)   
+        ref_mesh.append(ligne_psi) 
+    return np.array(ref_mesh) 
+
+def vtheta_ref_mesh(prm:object): 
+    """même logique que psi_ref_mesh, mais on calcule la vitesse angulaire anayltique"""
+    r, theta = gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny) # sert à retourver coords dans notre maillage 
+    ref_mesh = list() 
+    for index_vertical, ligne_r in enumerate(r):
+        # chaque iter donne une ligne 1d [ ... ] des valeurs de R de bas en haut (donc constant) 
+        # ainsi que un index vertical qui sert à retrouver theta 
+        ligne_psi = list() 
+        for index_horizonal, r in enumerate(ligne_r): 
+            # chaque iter donne une valeur de r dans la ligne 1d ainsi que son index horizontal pour retrouver theta 
+            vr = (-1)*delpsi_delr_ref(r, theta[index_vertical, index_horizonal], prm)
+            ligne_psi.append(vr)   
         ref_mesh.append(ligne_psi) 
     return np.array(ref_mesh) 
 
