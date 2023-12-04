@@ -209,11 +209,11 @@ def deriv_by_coeff(psis:np.array, coeff:str, nx:int, delta:float):
         else: # notre verification initiale nous permet d'assurer que si ce n'Est pas r, c'est theta qu'on veut 
             # alors derivee 'verticale' sur le maillage, on a besoin de verifier si on est en haut ou bas 
             if k<=(nx-1): # haut, derivee gear avant ordre 2 
-                psi_p = -psis[k+nx+nx] + (4*psis[k+nx]) - (3*psi)
+                psi_p = (-psis[k+nx+nx] + (4*psis[k+nx]) - (3*psi)) * -1
             elif k>=(N-nx) and k<=(N-1): # bas, derivee gear arriere ordre 2
-                psi_p = (3*psi) - (4*psis[k-nx]) + psis[k-nx-nx]
+                psi_p = ((3*psi) - (4*psis[k-nx]) + psis[k-nx-nx]) * -1 
             else: # centre, derivee centree ordre 2 
-                psi_p = psis[k+nx]-psis[k-nx]
+                psi_p = (psis[k+nx]-psis[k-nx]) * -1 
         psi_prime.append(psi_p/(2*delta))
     return np.array(psi_prime)
 
@@ -240,19 +240,13 @@ def cl(cp, N):
     integrande = cp*np.sin(domain) # fonction qu'on intègre pour avoir le cl 
     return -0.5*integrale(domain, integrande) 
 
-def convert_coords(vr, vtheta, prm):
-    # prend des vecteurs 1d correspondant aux noeuds k et les transpose sur des axes cartesiens 
-    # on ne fait qu'appliquer une matrice de rotation sur les couples vr et vtheta 
-    N = prm.nx*prm.ny 
-    R, T = gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny)
-    vx, vy = list(), list() 
-    for k in range(N): 
-        i = k%prm.nx # il faut qu'on retrouve les coords i, j dans la maille pour retrouver theta 
-        theta = T[convert_indices(prm.nx, i=i, j=None, k=k),i] 
-        vitesse_cartesienne = np.matmul([[np.cos(theta),np.sin(theta)],[np.sin(theta),np.cos(theta)]], [[vr[k]],[vtheta[k]]])
-        vx.append(vitesse_cartesienne[0,0])
-        vy.append(vitesse_cartesienne[1,0])
-    return np.array(vx), np.array(vy) 
+def convert_coords(maille_r, maille_theta, maille_vr, maille_vtheta): 
+    # converti les coords en cartesiennes, on peut multiplier directement car arrays shape compatibles lol 
+    maille_x = maille_r*np.cos(maille_theta) 
+    maille_y = maille_r*np.sin(maille_theta) 
+    maille_vx = maille_vr*np.cos(maille_theta) - maille_vtheta*np.sin(maille_theta)
+    maille_vy = maille_vr*np.sin(maille_theta) + maille_vtheta*np.cos(maille_theta)
+    return maille_x, maille_y, maille_vx, maille_vy
 
 if __name__ == "__main__": 
     """ 

@@ -14,23 +14,28 @@ class Parametres():
     ny = 15
 
 def main():
-    # tests, ceci peut etre effacé 
     prm = Parametres()
-    noeuds, res, solutions = f.mdf(params=prm)
-    vr, vtheta = f.vitesses(solutions, prm) 
-    R, THETA = f.gen_maille(prm.R, prm.R_ext, prm.theta_min, prm.theta_max, prm.nx, prm.ny) 
-    vr_mesh = f.arrange_mesh(vr, prm.nx, prm.ny) 
-    vtheta_mesh = f.arrange_mesh(vtheta, prm.nx, prm.ny) 
-    X, Y = f.gen_maille(-prm.R_ext, prm.R_ext, -prm.R_ext, prm.R_ext, prm.nx, prm.nx) 
-    vx, vy = f.convert_coords(vr, vtheta, prm) 
-    vx_mesh, vy_mesh = f.arrange_mesh(vx, prm.nx, prm.ny), f.arrange_mesh(vy, prm.nx, prm.ny)
+    maille_r, maille_theta, vecteur_psis = f.mdf(params=prm)
 
-    # plotting 
+    vr, vtheta = f.vitesses(vecteur_psis, prm) # obtention des vitesses sous forme de vecteur de noeuds 1d 
+    vr_mesh = f.arrange_mesh(vr, prm.nx, prm.ny) 
+    vtheta_mesh = f.arrange_mesh(vtheta, prm.nx, prm.ny) # convertion des vitesses en vecteur 1d sur la maille des solutions 
+    X, Y, VX, VY = f.convert_coords(maille_r, maille_theta, vr_mesh, vtheta_mesh) # convertion des mailles en cartésien 
+
+    ## plotting 
     fig, ax = plt.subplots() 
-    ax.quiver(X, Y, vx_mesh, vy_mesh)
+    ax.quiver(X, Y, VX, VY)
     # ajout d'un cercle pour representer le cylindre 
-    cyl = plt.Circle((0,0), prm.R, color="r", fill=False)
+    cyl = plt.Circle((0,0), prm.R, color="r", fill=False, label="Cylindre")
     ax.add_patch(cyl) 
+    # Labels 
+    ax.legend() 
+    ax.set_xlabel("Coordonnées en x")
+    ax.set_ylabel("Coordonnées en y")
+    ax.set_title("Un bon titre")
+    # Cleanup de l'affichage 
+    ax.set_aspect('equal', 'box')
+    ax.grid(True) 
     plt.show() 
     
 if __name__=="__main__": 
