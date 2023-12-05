@@ -52,7 +52,7 @@ def main():
     ### Analyse de l'effet des erreurs 
     # On fera un graphique de l'erreur relative sur les psis et sur la norme de la vitesse pour différents nombre de noeuds
     # pour faciliter l'analyse, on considèrera que nx = ny  
-    noeuds_err = [5, 10, 15, 30, 50] # valeurs qu'on imposera aux noeuds 
+    noeuds_err = range(5, 55, 5) # valeurs qu'on imposera aux noeuds 
     erreurs_psi, erreurs_vitesses = list(), list() 
 
     for nb_noeuds in noeuds_err: 
