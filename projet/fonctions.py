@@ -105,7 +105,7 @@ def gen_maille(r_min:float, r_max:float, theta_min:float, theta_max:float, nx:in
     maille_theta =  np.array([ [theta for _ in range(nx)] for theta in np.linspace(theta_max, theta_min, ny) ])
     return maille_r, maille_theta
 
-def convert_indices(nx:int, i:int|None = None, j:int|None = None, k:int|None = None)->int: 
+def convert_indices(nx:int, i:'int|None' = None, j:'int|None' = None, k:'int|None' = None)->int: 
     """
     Prend 2 indices et retourne celui qui n'est pas spécifié selon un maillage de forme 
 
@@ -328,7 +328,7 @@ def convert_coords(maille_r:np.ndarray, maille_theta:np.ndarray, maille_vr:np.nd
     maille_vy = maille_vr*np.sin(maille_theta) + maille_vtheta*np.cos(maille_theta)
     return maille_x, maille_y, maille_vx, maille_vy
 
-def integrale(x:list|np.ndarray, y:list|np.ndarray)->float: 
+def integrale(x:'list|np.ndarray', y:'list|np.ndarray')->float: 
     """ 
     Calcule une integrale avec la méthode des trapèzes pour des séries de valeurs discrètes
     
