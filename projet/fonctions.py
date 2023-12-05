@@ -45,7 +45,7 @@ def delpsi_deltheta_ref(r:float, theta:float, params:object)->float:
     """
     return params.u_inf*(np.square(r)-np.square(params.R))*np.cos(theta)/r 
 
-def psi_ref_mesh_(prm:object)->np.ndarray:
+def psi_ref_mesh(prm:object)->np.ndarray:
     """ 
     Applique la solution analytique de la fonction de courant sur le maillage établi par les paramètres de notre situation. 
 
