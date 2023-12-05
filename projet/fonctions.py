@@ -350,8 +350,8 @@ def cp(vitesse, params):
     avec un vectuer 1d des normes et donc un vecteur 1d de cp 
     """
     vitesse_r_theta= vitesse[:,0]
-    normes=np.linalg.norm(vitesse_r_theta,axis=1)
-    cp=1-np.square(normes/params.u_inf)
+    normes=np.linalg.norm(vitesse_r_theta,axis=0)
+    cp=1-np.square(normes/params)
 
     return cp
 
