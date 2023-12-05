@@ -345,6 +345,9 @@ def integrale(x:list|np.ndarray, y:list|np.ndarray)->float:
 def cp(vitesse, params): 
     """ 
     V est un vecteur de vitesses à R variant selon theta donc on doit juste l'évaluer et retourne le résultat
+    #TODO: msg pour Vincent: prends le mesh de vitesses r et theta et sélectionne juste les valeurs à gauche avec [:,0] 
+    t'auras un vecteur 1d des vitesses pour r et theta, puis évalue la norme pour chaque couple (vr, vtheta), je pense tu devrais te retrouver
+    avec un vectuer 1d des normes et donc un vecteur 1d de cp 
     """
     return 1-np.square(vitesse/params.u_inf)
 
