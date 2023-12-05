@@ -31,6 +31,9 @@ def main():
     # On converti les arrays 2d des coordonnées et vitesses polaires sur la maille en leur équivalent cartésiens 
     x_mesh, y_mesh, vx_mesh, vy_mesh = f.convert_coords(r_mesh, theta_mesh, vr_mesh, vtheta_mesh) 
 
+    # Output des coefficients de pression, portance et trainée 
+    f.compute_coefficients(vr_mesh, vtheta_mesh, prm) 
+    
     ## Graphique des vitesses sur le plan cartésien  
     fig, ax = plt.subplots() 
     ax.quiver(x_mesh, y_mesh, vx_mesh, vy_mesh)
@@ -94,12 +97,6 @@ def main():
     ax2.grid(True) 
     ax2.legend()    
     plt.show() 
-    
-    coeff_pres=f.cp(vitesses_ref,Parametres.u_inf)
-    coeff_port=f.cl(coeff_pres,Parametres.ny)
-    coeff_train=f.cd(coeff_pres,Parametres.ny)
-
-    print (coeff_pres,coeff_port,coeff_train)
     
 if __name__=="__main__": 
     main() 

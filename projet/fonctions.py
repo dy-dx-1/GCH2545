@@ -342,37 +342,77 @@ def integrale(x:'list|np.ndarray', y:'list|np.ndarray')->float:
     N = len(x)-1 
     return 0.5*sum((x[i]-x[i-1])*(y[i]+y[i-1]) for i in range(1, N))
 
-def cp(vitesse, params): 
+def cp(mesh_vr:np.ndarray, mesh_vtheta:np.ndarray, params:object)->np.ndarray: 
     """ 
-    V est un vecteur de vitesses à R variant selon theta donc on doit juste l'évaluer et retourne le résultat
-    #TODO: msg pour Vincent: prends le mesh de vitesses r et theta et sélectionne juste les valeurs à gauche avec [:,0] 
-    t'auras un vecteur 1d des vitesses pour r et theta, puis évalue la norme pour chaque couple (vr, vtheta), je pense tu devrais te retrouver
-    avec un vectuer 1d des normes et donc un vecteur 1d de cp 
+    Évalue le coefficient de portance au bord du cylindre sur tout le domaine angulaire. 
+
+    Entrées: 
+    mesh_vr: Maille bidimensionnelle des vitesses radiales  
+    mesh_theta: Maille bidimensionnelle des vitesses angulaires
+    params: Objet contenant les paramètres du problème
+
+    Sorties: 
+    ndarray de taille (1 par nombre de noeuds en theta)  
     """
-    vitesse_r_theta= vitesse[:,0]
-    normes=np.linalg.norm(vitesse_r_theta,axis=0)
-    cp=1-np.square(normes/params)
+    # prennons les vitesses sur le bord gauche en polaire(0 à 2pi sur R)
+    vr_bord = mesh_vr[:,0] 
+    vtheta_bord = mesh_vtheta[:,0]
+    vitesse = np.sqrt(vr_bord**2 + vtheta_bord**2) # norme de la vitesse 
+    
+    return 1 - np.sqrt(vitesse/params.u_inf)
 
-    return cp
-
-def cd(cp, N): 
+def cd(cp:np.ndarray)->float: 
     """ 
-    woo 
+    Évalue le coefficient de trainée au bord du cylindre sur tout le domaine angulaire. 
+
+    Entrées: 
+    cp: ndarray de taille (1 par nombre de noeuds en theta) des valeurs du coefficient de portance au bord du cylindre
+
+    Sorties: 
+    Valeur du coefficient de trainée 
     """
-    domain = np.linspace(0, 2*np.pi, N)
+    ntheta = len(cp)
+    domain = np.linspace(0, 2*np.pi, ntheta)
     integrande = cp*np.cos(domain) # fonction qu'on intègre pour avoir le cd 
     return -0.5*integrale(domain, integrande) 
 
-def cl(cp, N): 
+def cl(cp:np.ndarray)->float: 
     """ 
-    woo 
+    Évalue le coefficient de portance au bord du cylindre sur tout le domaine angulaire. 
+
+    Entrées: 
+    cp: ndarray de taille (1 par nombre de noeuds en theta) des valeurs du coefficient de portance au bord du cylindre
+
+    Sorties: 
+    Valeur du coefficient de portance 
     """
-    domain = np.linspace(0, 2*np.pi, N)
+    ntheta = len(cp)
+    domain = np.linspace(0, 2*np.pi, ntheta)
     integrande = cp*np.sin(domain) # fonction qu'on intègre pour avoir le cl 
     return -0.5*integrale(domain, integrande) 
 
+def compute_coefficients(mesh_vr:np.ndarray, mesh_vtheta:np.ndarray, params:object): 
+    """ 
+    Évalue les coefficients de pression, trainée et portance au bord du cylindre sur tout le domaine angulaire. 
+
+    Entrées: 
+    mesh_vr: Maille bidimensionnelle des vitesses radiales  
+    mesh_theta: Maille bidimensionnelle des vitesses angulaires
+    params: Objet contenant les paramètres du problème
+
+    Sorties: 
+    Aucune, la procédure imprime les résultats sur le terminal. 
+    """
+    cp_ = cp(mesh_vr, mesh_vtheta, params)
+    cd_ = cd(cp_)
+    cl_ = cl(cp_)
+    print(f"--------------------\nCoefficients à r={params.R}m sur theta=[0,2pi]:")
+    print(f"Coefficient de portance = {cp_}")
+    print(f"Coefficient de trainée = {cd_}")
+    print(f"Coefficient de portance = {cl_}", "--------------------", sep="\n")
+
 if __name__ == "__main__": 
     """ 
-    permet de lancer le fichier fonctions.py pour faire les tests 
+    permet de lancer le fichier fonctions.py directement pour faire les tests 
     """
     pytest.main(['tests.py']) 
