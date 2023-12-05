@@ -349,7 +349,11 @@ def cp(vitesse, params):
     t'auras un vecteur 1d des vitesses pour r et theta, puis évalue la norme pour chaque couple (vr, vtheta), je pense tu devrais te retrouver
     avec un vectuer 1d des normes et donc un vecteur 1d de cp 
     """
-    return 1-np.square(vitesse/params.u_inf)
+    vitesse_r_theta= vitesse[:,0]
+    normes=np.linalg.norm(vitesse_r_theta,axis=0)
+    cp=1-np.square(normes/params)
+
+    return cp
 
 def cd(cp, N): 
     """ 
