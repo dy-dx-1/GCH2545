@@ -4,6 +4,7 @@ import fonctions as f
 class Test:
 
     def test_maillage(self): 
+        """Test vérifiant que la génération de maille fonctionne"""
         coord_r = [[0, 1, 2, 3], 
                    [0, 1, 2, 3], 
                    [0, 1, 2, 3]] 
@@ -16,6 +17,7 @@ class Test:
         assert all([r_check.all(), theta_check.all()])
 
     def test_convert_indices(self): 
+        """ Test vérifiant que la convertion d'indices marche bien"""
         # prenons les points suivants, format (i, j, k), nx = 4
         p1 = (2, 0, 2) 
         p2 = (1, 1, 5) 
@@ -31,6 +33,7 @@ class Test:
         assert (f.convert_indices(nx=4, i=1, j=2, k=3) is None)
 
     def test_central_shape(self): 
+        """Test vérifiant que la fonction de gen_central_values ne génére pas de conditions limites"""
         maille_test1 = f.gen_central_values(k=9, nx=4, ny=4, rk=1, dr=1, dtheta=1)
         maille_test2 = f.gen_central_values(k=14, nx=4, ny=6, rk=1, dr=1, dtheta=1)
         maille_test3 = f.gen_central_values(k=8, nx=6, ny=3, rk=1, dr=1, dtheta=1) 
