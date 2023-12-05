@@ -391,7 +391,7 @@ def cl(cp:np.ndarray)->float:
     integrande = cp*np.sin(domain) # fonction qu'on intègre pour avoir le cl 
     return -0.5*integrale(domain, integrande) 
 
-def compute_coefficients(mesh_vr:np.ndarray, mesh_vtheta:np.ndarray, params:object): 
+def compute_coefficients(mesh_vr:np.ndarray, mesh_vtheta:np.ndarray, params:object)->None: 
     """ 
     Évalue les coefficients de pression, trainée et portance au bord du cylindre sur tout le domaine angulaire. 
 
